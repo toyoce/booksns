@@ -1,7 +1,28 @@
-import '../styles/globals.css'
+import { CacheProvider } from '@emotion/react';
+import CssBaseline from '@mui/material/CssBaseline';
+import Head from 'next/head';
+import PropTypes from 'prop-types';
+import * as React from 'react';
+import createEmotionCache from '../src/createEmotionCache';
 
-function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
+const clientSideEmotionCache = createEmotionCache();
+
+export default function MyApp(props) {
+  const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
+
+  return (
+    <CacheProvider value={emotionCache}>
+      <Head>
+        <meta name="viewport" content="initial-scale=1, width=device-width" />
+      </Head>
+      <CssBaseline />
+      <Component {...pageProps} />
+    </CacheProvider>
+  );
 }
 
-export default MyApp
+MyApp.propTypes = {
+  Component: PropTypes.elementType.isRequired,
+  emotionCache: PropTypes.object,
+  pageProps: PropTypes.object.isRequired,
+};
