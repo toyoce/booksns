@@ -37,12 +37,15 @@ export default function Home() {
               </InputAdornment>
             ),
           }}
-          sx={{ mt: 4 }}
+          sx={{ mt: 3 }}
           variant="outlined"
           value={title}
           onChange={handleTextChange}
         />
-        <Box mt={2}>{title}</Box>
+        <Box mt={2} display="flex" alignItems="center">
+          <Typography variant="h6">評価が高い本</Typography>
+          <Typography variant="body2" ml={1}>もっと見る &gt;</Typography>
+        </Box>
       </Container>
     </>
   );
