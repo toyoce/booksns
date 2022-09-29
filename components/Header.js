@@ -1,15 +1,21 @@
 import AppBar from '@mui/material/AppBar';
 import Button from '@mui/material/Button';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
+import Link from '../src/Link';
 
 export const Header = () => {
   return (
     <AppBar position="sticky">
       <Toolbar>
-        <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
+        <Link
+          variant="h5"
+          underline="none"
+          color="common.white"
+          href="/"
+          sx={{ flexGrow: 1 }}
+        >
           Bookshare
-        </Typography>
+        </Link>
         <Button variant="contained" color="info" onClick={() => alert("login")}>ログイン</Button>
       </Toolbar>
     </AppBar>
