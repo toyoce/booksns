@@ -1,7 +1,7 @@
 import AppBar from '@mui/material/AppBar';
 import Button from '@mui/material/Button';
 import Toolbar from '@mui/material/Toolbar';
-import Link from '../src/Link';
+import Link, { NextLinkComposed } from '../src/Link';
 
 export const Header = () => {
   return (
@@ -16,7 +16,14 @@ export const Header = () => {
         >
           Bookshare
         </Link>
-        <Button variant="contained" color="info" onClick={() => alert("login")}>ログイン</Button>
+        <Button
+          variant="contained"
+          component={NextLinkComposed}
+          to="/login"
+          color="info"
+        >
+          ログイン
+        </Button>
       </Toolbar>
     </AppBar>
   );
