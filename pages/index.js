@@ -14,6 +14,8 @@ const Home = () => {
     setTitle(event.target.value);
   };
 
+  const bookUrls = [];
+
   return (
     <Container>
       <TextField
@@ -42,6 +44,13 @@ const Home = () => {
         >
           もっと見る &gt;
         </Link>
+      </Box>
+      <Box sx={{ mt: 1, display: "flex", flexWrap: "wrap" }}>
+        {bookUrls.map((url) => (
+          <Box sx={{ mr: 3, mb: 1, border: 1, borderColor: "grey.400" }}>
+            <img src={url} width="136" />
+          </Box>
+        ))}
       </Box>
     </Container>
   );
