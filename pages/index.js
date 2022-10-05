@@ -8,7 +8,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import Link from '../src/Link';
 
-const Home = ({ highlyRatedBooks }) => {
+const Home = ({ highlyRatedBooks, mostReviewedBooks }) => {
   const [title, setTitle] = useState('');
 
   const handleTextChange = (event) => {
@@ -51,6 +51,25 @@ const Home = ({ highlyRatedBooks }) => {
           </Box>
         ))}
       </Box>
+      <Box mt={2} display="flex" alignItems="center">
+        <Typography variant="h6">レビュー数が多い本</Typography>
+        <Link
+          variant="body2"
+          ml={1}
+          underline="hover"
+          color="text.primary"
+          href="/books"
+        >
+          もっと見る &gt;
+        </Link>
+      </Box>
+      <Box sx={{ mt: 1, display: "flex", flexWrap: "wrap" }}>
+        {mostReviewedBooks.map((book) => (
+          <Box key={book.isbn} sx={{ mr: 3, mb: 1, border: 1, borderColor: "grey.400" }}>
+            <img src={book.img} width="136" />
+          </Box>
+        ))}
+      </Box>
     </Container>
   );
 };
@@ -58,8 +77,13 @@ const Home = ({ highlyRatedBooks }) => {
 export default Home;
 
 export const getServerSideProps = async () => {
-  const res = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/highly-rated-books`);
-  const highlyRatedBooks = res.data.bookrecords;
+  const responses = await Promise.all([
+    axios.get(`${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/highly-rated-books`),
+    axios.get(`${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/most-reviewed-books`)
+  ]);
+  
+  const highlyRatedBooks = responses[0].data.bookrecords;
+  const mostReviewedBooks = responses[1].data.bookrecords;
 
-  return { props: { highlyRatedBooks } };
+  return { props: { highlyRatedBooks, mostReviewedBooks } };
 };
