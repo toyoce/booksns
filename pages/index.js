@@ -47,7 +47,9 @@ const Home = ({ highlyRatedBooks, mostReviewedBooks }) => {
       <Box sx={{ mt: 1, display: "flex", flexWrap: "wrap" }}>
         {highlyRatedBooks.map((book) => (
           <Box key={book.isbn} sx={{ mr: 3, mb: 1, border: 1, borderColor: "grey.400" }}>
-            <img src={book.img} width="136" />
+            <Link href={`/books/${book.isbn}`}>
+              <img src={book.img} width="136" />
+            </Link>
           </Box>
         ))}
       </Box>
@@ -66,7 +68,9 @@ const Home = ({ highlyRatedBooks, mostReviewedBooks }) => {
       <Box sx={{ mt: 1, display: "flex", flexWrap: "wrap" }}>
         {mostReviewedBooks.map((book) => (
           <Box key={book.isbn} sx={{ mr: 3, mb: 1, border: 1, borderColor: "grey.400" }}>
-            <img src={book.img} width="136" />
+            <Link href={`/books/${book.isbn}`}>
+              <img src={book.img} width="136" />
+            </Link>
           </Box>
         ))}
       </Box>
