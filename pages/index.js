@@ -86,8 +86,8 @@ export const getServerSideProps = async () => {
     axios.get(`${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/most-reviewed-books`)
   ]);
   
-  const highlyRatedBooks = responses[0].data.bookrecords;
-  const mostReviewedBooks = responses[1].data.bookrecords;
+  const highlyRatedBooks = responses[0].data.books;
+  const mostReviewedBooks = responses[1].data.books;
 
   return { props: { highlyRatedBooks, mostReviewedBooks } };
 };
