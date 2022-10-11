@@ -5,6 +5,23 @@ import Typography from '@mui/material/Typography';
 import axios from 'axios';
 
 const BookPage = ({ book }) => {
+  const bookrecordRows = (
+    <Box>
+      {book.bookrecords.map((br) => (
+        <Box key={br.user_id} sx={{ py: 2, borderBottom: 1, borderColor: "grey.400" }}>
+          <Box sx={{ display: "flex" }}>
+            <Typography variant="body2">{br.user_id}</Typography>
+            <Typography variant="body2" sx={{ ml: 1, color: "grey.700" }}>{"(2022/10/11)"}</Typography>
+          </Box>
+          <Box sx={{ mt: 1 }}>
+            <Rating value={br.star} size="small" readOnly />
+          </Box>
+          <Typography variant="body2">{br.comment}</Typography>
+        </Box>
+      ))}
+    </Box>
+  );
+
   return (
     <Container>
       <Box sx={{ mt: 2, display: "flex" }}>
@@ -23,6 +40,8 @@ const BookPage = ({ book }) => {
           <Typography variant="body2" sx={{ mt: 1 }}>{book.description}</Typography>
         </Box>
       </Box>
+      <Typography variant="subtitle1" sx={{ mt: 4 }}>レビュー一覧</Typography>
+      {bookrecordRows}
     </Container>
   );
 };
@@ -30,7 +49,10 @@ const BookPage = ({ book }) => {
 export default BookPage;
 
 export const getServerSideProps = async ({ params }) => {
-  const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/books/${params.isbn}`);
+  const response = await axios.get(
+    `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/books/${params.isbn}`,
+    { params: { withRecords: 1 } }
+  );
   const book = response.data;
 
   return { props: { book } };
