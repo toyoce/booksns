@@ -3,6 +3,7 @@ import Container from '@mui/material/Container';
 import Rating from '@mui/material/Rating';
 import Typography from '@mui/material/Typography';
 import axios from 'axios';
+import Link from '../../src/Link';
 
 const BookPage = ({ book }) => {
   const bookrecordRows = (
@@ -10,7 +11,14 @@ const BookPage = ({ book }) => {
       {book.bookrecords.map((br) => (
         <Box key={br.user_id} sx={{ py: 2, borderBottom: 1, borderColor: "grey.400" }}>
           <Box sx={{ display: "flex" }}>
-            <Typography variant="body2">{br.user_id}</Typography>
+            <Link
+              variant="body2"
+              underline="hover"
+              color="text.primary"
+              href={`/users/${br.user_id}`}
+            >
+              {br.user_id}
+            </Link>
             <Typography variant="body2" sx={{ ml: 1, color: "grey.700" }}>{"(2022/10/11)"}</Typography>
           </Box>
           <Box sx={{ mt: 1 }}>
