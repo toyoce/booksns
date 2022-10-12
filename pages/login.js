@@ -6,6 +6,7 @@ import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import axios from 'axios';
 import { useState } from 'react';
 
 const LoginPage = () => {
@@ -25,8 +26,16 @@ const LoginPage = () => {
     setShowPassword(!showPassword);
   };
 
-  const login = () => {
-    alert(`login as ${userId}`);
+  const login = async () => {
+    const response = await axios.post(
+      `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/login`,
+      {
+        user_id: userId,
+        password
+      }
+    );
+    const accessToken = response.data.access_token;
+    console.log(accessToken);
   };
 
   return (
