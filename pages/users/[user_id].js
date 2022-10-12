@@ -3,6 +3,7 @@ import Container from '@mui/material/Container';
 import Rating from '@mui/material/Rating';
 import Typography from '@mui/material/Typography';
 import axios from 'axios';
+import Link from '../../src/Link';
 
 const UserPage = ({ user }) => {
   const bookrecordRows = (
@@ -13,7 +14,14 @@ const UserPage = ({ user }) => {
             <img src={br.img} width="80" />
           </Box>
           <Box sx={{ ml: 2 }}>
-            <Typography variant="body2">{br.title}</Typography>
+            <Link
+              variant="body2"
+              color="text.primary"
+              underline="hover"
+              href={`/books/${br.isbn}`}
+            >
+              {br.title}
+            </Link>
             <Box sx={{ mt: 1, display: "flex" }}>
               <Rating value={br.star} size="small" readOnly />
               <Typography variant="body2" sx={{ ml: 1, color: "grey.700" }}>
