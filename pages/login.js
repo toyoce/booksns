@@ -7,9 +7,12 @@ import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import axios from 'axios';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 
 const LoginPage = () => {
+  const router = useRouter();
+
   const [userId, setUserId] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -27,15 +30,19 @@ const LoginPage = () => {
   };
 
   const login = async () => {
-    const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/login`,
-      {
-        user_id: userId,
-        password
-      }
-    );
-    const accessToken = response.data.access_token;
-    console.log(accessToken);
+    try {
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/login`,
+        {
+          user_id: userId,
+          password
+        }
+      );
+    } catch {
+      alert("Login failed");
+      return;
+    }
+    router.push("/");
   };
 
   return (
