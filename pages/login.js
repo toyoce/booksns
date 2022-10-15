@@ -36,7 +36,8 @@ const LoginPage = () => {
         {
           user_id: userId,
           password
-        }
+        },
+        { withCredentials: true }
       );
     } catch {
       alert("Login failed");
