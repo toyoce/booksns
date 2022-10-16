@@ -5,14 +5,26 @@ import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import axios from 'axios';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 import Link from '../src/Link';
 
 const Home = ({ highlyRatedBooks, mostReviewedBooks }) => {
+  const router = useRouter();
+  
   const [title, setTitle] = useState('');
 
   const handleTextChange = (event) => {
     setTitle(event.target.value);
+  };
+
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      router.push({
+        pathname: "/books",
+        query: { keyword: title }
+      });
+    }
   };
 
   return (
@@ -31,6 +43,7 @@ const Home = ({ highlyRatedBooks, mostReviewedBooks }) => {
         variant="outlined"
         value={title}
         onChange={handleTextChange}
+        onKeyDown={handleKeyDown}
       />
       <Typography variant="h6" sx={{ mt: 3 }}>評価が高い本</Typography>
       <Box sx={{ mt: 1, display: "flex", flexWrap: "wrap" }}>
