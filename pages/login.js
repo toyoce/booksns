@@ -8,10 +8,12 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import axios from 'axios';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import { UserContext } from './_app';
 
 const LoginPage = () => {
   const router = useRouter();
+  const { currentUser, setCurrentUser } = useContext(UserContext);
 
   const [userId, setUserId] = useState('');
   const [password, setPassword] = useState('');
@@ -43,6 +45,7 @@ const LoginPage = () => {
       alert("Login failed");
       return;
     }
+    setCurrentUser({"userId": userId});
     router.push("/");
   };
 
