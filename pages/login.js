@@ -13,7 +13,7 @@ import { UserContext } from './_app';
 
 const LoginPage = () => {
   const router = useRouter();
-  const { currentUser, setCurrentUser } = useContext(UserContext);
+  const { setCurrentUser } = useContext(UserContext);
 
   const [userId, setUserId] = useState('');
   const [password, setPassword] = useState('');
