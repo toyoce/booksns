@@ -12,17 +12,17 @@ import Link from '../src/Link';
 const Home = ({ highlyRatedBooks, mostReviewedBooks }) => {
   const router = useRouter();
   
-  const [title, setTitle] = useState('');
+  const [keyword, setKeyword] = useState("");
 
   const handleTextChange = (event) => {
-    setTitle(event.target.value);
+    setKeyword(event.target.value);
   };
 
   const handleKeyDown = (event) => {
-    if (event.key === "Enter") {
+    if (event.key === "Enter" && keyword) {
       router.push({
         pathname: "/books",
-        query: { keyword: title }
+        query: { keyword }
       });
     }
   };
@@ -41,7 +41,7 @@ const Home = ({ highlyRatedBooks, mostReviewedBooks }) => {
         }}
         sx={{ mt: 3 }}
         variant="outlined"
-        value={title}
+        value={keyword}
         onChange={handleTextChange}
         onKeyDown={handleKeyDown}
       />
