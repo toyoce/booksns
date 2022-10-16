@@ -32,18 +32,7 @@ const Home = ({ highlyRatedBooks, mostReviewedBooks }) => {
         value={title}
         onChange={handleTextChange}
       />
-      <Box mt={2} display="flex" alignItems="center">
-        <Typography variant="h6">評価が高い本</Typography>
-        <Link
-          variant="body2"
-          ml={1}
-          underline="hover"
-          color="text.primary"
-          href="/books"
-        >
-          もっと見る &gt;
-        </Link>
-      </Box>
+      <Typography variant="h6" sx={{ mt: 3 }}>評価が高い本</Typography>
       <Box sx={{ mt: 1, display: "flex", flexWrap: "wrap" }}>
         {highlyRatedBooks.map((book) => (
           <Box key={book.isbn} sx={{ mr: 3, mb: 1, border: 1, borderColor: "grey.400" }}>
@@ -53,18 +42,7 @@ const Home = ({ highlyRatedBooks, mostReviewedBooks }) => {
           </Box>
         ))}
       </Box>
-      <Box mt={2} display="flex" alignItems="center">
-        <Typography variant="h6">レビュー数が多い本</Typography>
-        <Link
-          variant="body2"
-          ml={1}
-          underline="hover"
-          color="text.primary"
-          href="/books"
-        >
-          もっと見る &gt;
-        </Link>
-      </Box>
+      <Typography variant="h6" sx={{ mt: 3 }}>レビュー数が多い本</Typography>
       <Box sx={{ mt: 1, display: "flex", flexWrap: "wrap" }}>
         {mostReviewedBooks.map((book) => (
           <Box key={book.isbn} sx={{ mr: 3, mb: 1, border: 1, borderColor: "grey.400" }}>
