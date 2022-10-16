@@ -49,6 +49,15 @@ export const Header = () => {
           </Typography>
           <Button
             variant="contained"
+            component={NextLinkComposed}
+            to={`/users/${currentUser.userId}`}
+            color="info"
+            sx={{ ml: 2 }}
+          >
+            マイページ
+          </Button>
+          <Button
+            variant="contained"
             color="info"
             sx={{ ml: 2 }}
             onClick={logout}
