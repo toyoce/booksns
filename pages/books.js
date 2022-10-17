@@ -12,17 +12,21 @@ import Link from '../src/Link';
 const BooksPage = () => {
   const router = useRouter();
 
-  const [keyword, setKeyword] = useState(router.query.keyword);
+  const [keyword, setKeyword] = useState(router.query.keyword || "");
   const [books, setBooks] = useState([]);
+  const [loading, setLoading] = useState(router.query.keyword ? true : false);
 
   useEffect(() => {
-    (async () => {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/books`,
-        { params: { keyword } }
-      );
-      setBooks(response.data.books);
-    })()
+    if (keyword) {
+      (async () => {
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/books`,
+          { params: { keyword } }
+        );
+        setBooks(response.data.books);
+        setLoading(false);
+      })();
+    }
   }, []);
 
   const handleTextChange = (event) => {
@@ -32,11 +36,13 @@ const BooksPage = () => {
   const handleKeyDown = async (event) => {
     if (event.key === "Enter" && keyword) {
       setBooks([]);
+      setLoading(true);
       const response = await axios.get(
         `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/books`,
         { params: { keyword } }
       );
       setBooks(response.data.books);
+      setLoading(false);
     }
   };
 
@@ -63,6 +69,14 @@ const BooksPage = () => {
     </Box>
   );
 
+  let bookRowsArea;
+
+  if (loading) {
+    bookRowsArea = <Typography sx={{ mt: 2 }}>Loading...</Typography>;
+  } else if (books.length) {
+    bookRowsArea = bookRows;
+  }
+
   return (
     <Container>
       <TextField
@@ -81,7 +95,7 @@ const BooksPage = () => {
         onChange={handleTextChange}
         onKeyDown={handleKeyDown}
       />
-      {books.length ? bookRows : <Typography sx={{ mt: 2 }}>Loading...</Typography>}
+      {bookRowsArea}
     </Container>
   );
 };
