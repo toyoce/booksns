@@ -58,7 +58,10 @@ const BooksPage = () => {
               variant="body2"
               color="text.primary"
               underline="hover"
-              href={`/books/${b.isbn}`}
+              href={router.query.addReview ? {
+                pathname: "/bookrecords/new",
+                query: { isbn: b.isbn },
+              } : `/books/${b.isbn}`}
             >
               {b.title}
             </Link>

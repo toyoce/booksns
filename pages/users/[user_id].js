@@ -53,7 +53,10 @@ const UserPage = ({ user }) => {
           <Button
             variant="contained"
             component={NextLinkComposed}
-            to={"/books"}
+            to={{
+              pathname: "/books",
+              query: { addReview: 1 },
+            }}
             color="info"
             size="small"
           >
