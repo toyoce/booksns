@@ -1,6 +1,7 @@
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Rating from '@mui/material/Rating';
+import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import axios from 'axios';
 import { useRouter } from 'next/router';
@@ -12,7 +13,8 @@ const BookrecordCreatePage = () => {
   const { currentUser } = useContext(UserContext);
   
   const [book, setBook] = useState(undefined);
-  const [star, setStar] = useState(3);
+  const [star, setStar] = useState(0);
+  const [comment, setComment] = useState("");
 
   useEffect(() => {
     if (!currentUser.userId) {
@@ -42,7 +44,7 @@ const BookrecordCreatePage = () => {
         <Box sx={{ border: 1, borderColor: "grey.400" }}>
           <img src={book.img} />
         </Box>
-        <Box sx={{ ml: 3 }}>
+        <Box sx={{ ml: 3, flexGrow: 1 }}>
           <Typography variant="h6">{book.title}</Typography>
           <Typography variant="body2">{book.author}</Typography>
           <Typography variant="body2" sx={{ mt: 1 }}>{book.description}</Typography>
@@ -52,7 +54,16 @@ const BookrecordCreatePage = () => {
             onChange={(event, newValue) => setStar(newValue)}
             sx={{ mt: 1 }}
           />
-          <Typography variant="subtitle1" sx={{ mt: 3 }}>コメント</Typography>
+          <Typography variant="subtitle1" sx={{ mt: 1 }}>コメント</Typography>
+          <TextField
+            multiline
+            rows={3}
+            fullWidth
+            placeholder="面白かった！"
+            value={comment}
+            onChange={(event) => setComment(event.target.value)}
+            sx={{ mt: 1 }}
+          />
         </Box>
       </Box>
     </Container>
