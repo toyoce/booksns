@@ -1,0 +1,62 @@
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
+import Rating from '@mui/material/Rating';
+import Typography from '@mui/material/Typography';
+import axios from 'axios';
+import { useRouter } from 'next/router';
+import { useContext, useEffect, useState } from 'react';
+import { UserContext } from '../_app';
+
+const BookrecordCreatePage = () => {
+  const router = useRouter();
+  const { currentUser } = useContext(UserContext);
+  
+  const [book, setBook] = useState(undefined);
+  const [star, setStar] = useState(3);
+
+  useEffect(() => {
+    if (!currentUser.userId) {
+      router.push("/login");
+    }
+    (async () => {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/books/${router.query.isbn}`
+      );
+      setBook(response.data);
+    })();
+  }, []);
+
+  if (!book) {
+    return (
+      <Container>
+        <Typography variant="body1" sx={{ mt: 2 }}>
+          Loading...
+        </Typography>
+      </Container>
+    );
+  }
+
+  return (
+    <Container>
+      <Box sx={{ mt: 2, display: "flex" }}>
+        <Box sx={{ border: 1, borderColor: "grey.400" }}>
+          <img src={book.img} />
+        </Box>
+        <Box sx={{ ml: 3 }}>
+          <Typography variant="h6">{book.title}</Typography>
+          <Typography variant="body2">{book.author}</Typography>
+          <Typography variant="body2" sx={{ mt: 1 }}>{book.description}</Typography>
+          <Typography variant="subtitle1" sx={{ mt: 3 }}>評価</Typography>
+          <Rating
+            value={star}
+            onChange={(event, newValue) => setStar(newValue)}
+            sx={{ mt: 1 }}
+          />
+          <Typography variant="subtitle1" sx={{ mt: 3 }}>コメント</Typography>
+        </Box>
+      </Box>
+    </Container>
+  );
+};
+
+export default BookrecordCreatePage;
