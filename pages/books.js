@@ -29,9 +29,14 @@ const BooksPage = () => {
     setKeyword(event.target.value);
   };
 
-  const handleKeyDown = (event) => {
-    if (event.key === "Enter") {
-      alert("Enter was clicked");
+  const handleKeyDown = async (event) => {
+    if (event.key === "Enter" && keyword) {
+      setBooks([]);
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/books`,
+        { params: { keyword } }
+      );
+      setBooks(response.data.books);
     }
   };
 
