@@ -49,7 +49,11 @@ const BookPage = ({ book }) => {
         </Box>
       </Box>
       <Typography variant="subtitle1" sx={{ mt: 4 }}>レビュー一覧</Typography>
-      {bookrecordRows}
+      {book.bookrecords.length ? bookrecordRows: (
+        <Typography variant="body2" sx={{ mt: 6, textAlign: "center" }}>
+          まだレビューはありません
+        </Typography>
+      )}
     </Container>
   );
 };
