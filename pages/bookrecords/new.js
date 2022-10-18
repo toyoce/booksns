@@ -1,4 +1,5 @@
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Rating from '@mui/material/Rating';
 import TextField from '@mui/material/TextField';
@@ -27,6 +28,31 @@ const BookrecordCreatePage = () => {
       setBook(response.data);
     })();
   }, []);
+
+  const getCookie = (name) => {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+  };
+
+  const createBookrecord = async () => {
+    if (!star) {
+      alert("5段階の評価のどれかを入力してください。");
+      return;
+    }
+
+    await axios.post(
+      `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/bookrecords`,
+      { ...book, star, comment },
+      {
+        withCredentials: true,
+        headers: {
+          "X-CSRF-TOKEN": getCookie("csrf_access_token")
+        }
+      }
+    );
+    router.push(`/users/${currentUser.userId}`);
+  };
 
   if (!book) {
     return (
@@ -64,6 +90,13 @@ const BookrecordCreatePage = () => {
             onChange={(event) => setComment(event.target.value)}
             sx={{ mt: 1 }}
           />
+          <Button
+            variant="contained"
+            sx={{ mt: 2 }}
+            onClick={createBookrecord}
+          >
+            登録
+          </Button>
         </Box>
       </Box>
     </Container>
