@@ -1,6 +1,9 @@
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
+import IconButton from '@mui/material/IconButton';
 import Rating from '@mui/material/Rating';
 import Typography from '@mui/material/Typography';
 import axios from 'axios';
@@ -19,14 +22,33 @@ const UserPage = ({ user }) => {
             <img src={br.img} width="80" />
           </Box>
           <Box sx={{ ml: 2 }}>
-            <Link
-              variant="body2"
-              color="text.primary"
-              underline="hover"
-              href={`/books/${br.isbn}`}
-            >
-              {br.title}
-            </Link>
+            {currentUser.userId === user.user_id ? (
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                <Link
+                  variant="body2"
+                  color="text.primary"
+                  underline="hover"
+                  href={`/books/${br.isbn}`}
+                >
+                  {br.title}
+                </Link>
+                <IconButton size="small" sx={{ ml: 0.5 }}>
+                  <EditIcon fontSize="inherit" />
+                </IconButton>
+                <IconButton size="small">
+                  <DeleteIcon fontSize="inherit" />
+                </IconButton>
+              </Box>
+            ) : (
+              <Link
+                variant="body2"
+                color="text.primary"
+                underline="hover"
+                href={`/books/${br.isbn}`}
+              >
+                {br.title}
+              </Link>
+            )}
             <Box sx={{ mt: 1, display: "flex" }}>
               <Rating value={br.star} size="small" readOnly />
               <Typography variant="body2" sx={{ ml: 1, color: "grey.700" }}>
