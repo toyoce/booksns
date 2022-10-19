@@ -13,6 +13,7 @@ import Typography from '@mui/material/Typography';
 import axios from 'axios';
 import { useContext, useState } from 'react';
 import Link, { NextLinkComposed } from '../../src/Link';
+import { getCookie } from '../../src/utils';
 import { UserContext } from '../_app';
 
 const UserPage = ({ user }) => {
@@ -26,8 +27,16 @@ const UserPage = ({ user }) => {
     setOpen(true);
   };
 
-  const handleDeleteButtonClick = () => {
-    alert(`bookrecord(${selected}) will be deleted`);
+  const handleDeleteButtonClick = async () => {
+    await axios.delete(
+      `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/bookrecords/${selected}`,
+      {
+        headers: {
+          "X-CSRF-TOKEN": getCookie("csrf_access_token")
+        },
+        withCredentials: true
+      }
+    );
   };
 
   const handleDialogClose = () => {

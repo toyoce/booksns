@@ -7,16 +7,11 @@ import { useRouter } from 'next/router';
 import { useContext } from 'react';
 import { UserContext } from '../pages/_app';
 import Link, { NextLinkComposed } from '../src/Link';
+import { getCookie } from '../src/utils';
 
 export const Header = () => {
   const router = useRouter();
   const { currentUser, setCurrentUser } = useContext(UserContext);
-
-  const getCookie = (name) => {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop().split(';').shift();
-  };
 
   const logout = async () => {
     await axios({

@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
+import { getCookie } from '../../src/utils';
 import { UserContext } from '../_app';
 
 const BookrecordCreatePage = () => {
@@ -28,12 +29,6 @@ const BookrecordCreatePage = () => {
       setBook(response.data);
     })();
   }, []);
-
-  const getCookie = (name) => {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop().split(';').shift();
-  };
 
   const createBookrecord = async () => {
     if (!star) {
