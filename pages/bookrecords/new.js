@@ -62,8 +62,8 @@ const BookrecordCreatePage = () => {
   return (
     <Container>
       <Box sx={{ mt: 2, display: "flex" }}>
-        <Box sx={{ border: 1, borderColor: "grey.400" }}>
-          <img src={book.img} />
+        <Box>
+          <img src={book.img} style={{ border: "1px solid silver" }} />
         </Box>
         <Box sx={{ ml: 3, flexGrow: 1 }}>
           <Typography variant="h6">{book.title}</Typography>
@@ -76,18 +76,19 @@ const BookrecordCreatePage = () => {
             sx={{ mt: 1 }}
           />
           <Typography variant="subtitle1" sx={{ mt: 1 }}>コメント</Typography>
-          <TextField
-            multiline
-            rows={3}
-            fullWidth
-            placeholder="面白かった！"
-            value={comment}
-            onChange={(event) => setComment(event.target.value)}
-            sx={{ mt: 1 }}
-          />
+          <Box sx={{ mt: 1 }}>
+            <TextField
+              multiline
+              rows={3}
+              placeholder="面白かった！"
+              value={comment}
+              onChange={(event) => setComment(event.target.value)}
+              sx={{ width: 4/5 }}
+            />
+          </Box>
           <Button
             variant="contained"
-            sx={{ mt: 2 }}
+            sx={{ mt: 3 }}
             onClick={createBookrecord}
           >
             登録
