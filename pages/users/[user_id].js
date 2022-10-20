@@ -19,6 +19,7 @@ import { UserContext } from '../_app';
 const UserPage = ({ user }) => {
   const { currentUser } = useContext(UserContext);
 
+  const [bookrecords, setBookrecords] = useState(user.bookrecords);
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState(undefined);
 
@@ -37,6 +38,10 @@ const UserPage = ({ user }) => {
         withCredentials: true
       }
     );
+    const newBookrecords = bookrecords.slice().filter((br) => br.id !== selected)
+    setBookrecords(newBookrecords);
+    setSelected(undefined);
+    setOpen(false);
   };
 
   const handleDialogClose = () => {
@@ -46,7 +51,7 @@ const UserPage = ({ user }) => {
 
   const bookrecordRows = (
     <Box>
-      {user.bookrecords.map((br) => (
+      {bookrecords.map((br) => (
         <Box key={br.isbn} sx={{ py: 2, display: "flex", borderBottom: 1, borderColor: "grey.400" }}>
           <Box sx={{ border: 1, borderColor: "grey.400" }}>
             <img src={br.img} width="80" />
