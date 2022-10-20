@@ -17,6 +17,7 @@ const BookrecordCreatePage = () => {
   const [book, setBook] = useState(undefined);
   const [star, setStar] = useState(0);
   const [comment, setComment] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     if (!currentUser.userId) {
@@ -32,9 +33,10 @@ const BookrecordCreatePage = () => {
 
   const createBookrecord = async () => {
     if (!star) {
-      alert("5段階の評価のどれかを入力してください。");
+      setErrorMessage("5段階の評価のどれかを選んでください");
       return;
     }
+    setErrorMessage("");
 
     await axios.post(
       `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/bookrecords`,
@@ -63,7 +65,7 @@ const BookrecordCreatePage = () => {
     <Container>
       <Box sx={{ mt: 2, display: "flex" }}>
         <Box>
-          <img src={book.img} style={{ border: "1px solid silver" }} />
+          <img src={book.img} width="128" style={{ border: "1px solid silver" }} />
         </Box>
         <Box sx={{ ml: 3, flexGrow: 1 }}>
           <Typography variant="h6">{book.title}</Typography>
@@ -93,6 +95,12 @@ const BookrecordCreatePage = () => {
           >
             登録
           </Button>
+          <Typography
+            variant="body2"
+            sx={{ mt: 2, color: "error.light" }}
+          >
+            {errorMessage}
+          </Typography>
         </Box>
       </Box>
     </Container>
