@@ -84,7 +84,9 @@ const BooksPage = () => {
     <Container>
       <TextField
         fullWidth
-        placeholder="気になる本のタイトルを入力してください"
+        placeholder={router.query.addReview ? (
+          "レビューを追加したい本のタイトルを入力してください"
+        ) : "気になる本のタイトルを入力してください"}
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
