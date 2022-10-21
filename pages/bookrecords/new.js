@@ -7,7 +7,6 @@ import Typography from '@mui/material/Typography';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
-import { NextLinkComposed } from '../../src/Link';
 import { getCookie } from '../../src/utils';
 import { UserContext } from '../_app';
 
@@ -102,11 +101,7 @@ const BookrecordCreatePage = () => {
           </Button>
           <Button
             variant="outlined"
-            component={NextLinkComposed}
-            to={{
-              pathname: "/books",
-              query: { addReview: 1 },
-            }}
+            onClick={() => router.back()}
             sx={{ mt: 3, ml: 1, color: "grey.500", borderColor: "grey.500" }}
           >
             キャンセル
