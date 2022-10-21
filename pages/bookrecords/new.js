@@ -39,17 +39,21 @@ const BookrecordCreatePage = () => {
     }
     setErrorMessage("");
 
-    await axios.post(
-      `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/bookrecords`,
-      { ...book, star, comment },
-      {
-        withCredentials: true,
-        headers: {
-          "X-CSRF-TOKEN": getCookie("csrf_access_token")
+    try {
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/bookrecords`,
+        { ...book, star, comment },
+        {
+          withCredentials: true,
+          headers: {
+            "X-CSRF-TOKEN": getCookie("csrf_access_token")
+          }
         }
-      }
-    );
-    router.push(`/users/${currentUser.userId}`);
+      );
+      router.push(`/users/${currentUser.userId}`);
+    } catch {
+      setErrorMessage("エラーにより、レビューの追加に失敗しました");
+    }
   };
 
   if (!book) {
