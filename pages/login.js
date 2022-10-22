@@ -119,7 +119,7 @@ const LoginPage = () => {
           underline="hover"
           href="/register"
         >
-          アカウントを作成
+          アカウントをお持ちでない方はこちら
         </Link>
       </Box>
     </Container>
