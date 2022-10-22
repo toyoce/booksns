@@ -54,8 +54,12 @@ const LoginPage = () => {
       );
       setCurrentUser({"userId": userId});
       router.push("/");
-    } catch {
-      setErrorMessage("ログインに失敗しました");
+    } catch (error) {
+      if (error.response && error.response.status == 401) {
+        setErrorMessage("ユーザーIDまたはパスワードが間違っています");
+      } else {
+        setErrorMessage("エラーにより、ログインに失敗しました");
+      }
     }
   };
 
