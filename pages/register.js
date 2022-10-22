@@ -39,8 +39,24 @@ const RegisterPage = () => {
       setErrorMessage("ユーザーIDを入力してください");
       return;
     }
+    if (userId.length < 3) {
+      setErrorMessage("ユーザーIDが短すぎます");
+      return;
+    }
+    if (userId.length > 20) {
+      setErrorMessage("ユーザーIDが長すぎます");
+      return;
+    }
     if (!password) {
       setErrorMessage("パスワードを入力してください");
+      return;
+    }
+    if (password.length < 8) {
+      setErrorMessage("パスワードが短すぎます");
+      return;
+    }
+    if (password.length > 20) {
+      setErrorMessage("パスワードが長すぎます");
       return;
     }
     setErrorMessage("");
@@ -72,6 +88,7 @@ const RegisterPage = () => {
       <TextField
         fullWidth
         size="small"
+        helperText="3文字以上20文字以内の半角英数字または記号(-_)"
         value={userId}
         onChange={handleUserIdChange}
       />
@@ -81,6 +98,7 @@ const RegisterPage = () => {
       <TextField
         fullWidth
         size="small"
+        helperText="8文字以上20文字以内の半角英数字または記号(-_#$%?+:;)"
         InputProps={{
           endAdornment: (
             <InputAdornment position="end">
