@@ -67,7 +67,12 @@ const UserPage = ({ user }) => {
                 >
                   {br.title}
                 </Link>
-                <IconButton size="small" sx={{ ml: 0.5 }}>
+                <IconButton
+                  component={NextLinkComposed}
+                  to={`/bookrecords/${br.id}/edit`}
+                  size="small"
+                  sx={{ ml: 0.5 }}
+                >
                   <EditIcon fontSize="inherit" />
                 </IconButton>
                 <IconButton size="small" onClick={() => handleDeleteIconClick(br.id)}>

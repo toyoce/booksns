@@ -8,7 +8,7 @@ import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
 import { getCookie } from '../../../src/utils';
-import { UserContext } from '../_app';
+import { UserContext } from '../../_app';
 
 const BookrecordEditPage = () => {
   const router = useRouter();
