@@ -15,9 +15,10 @@ const LoginPage = () => {
   const router = useRouter();
   const { setCurrentUser } = useContext(UserContext);
 
-  const [userId, setUserId] = useState('');
-  const [password, setPassword] = useState('');
+  const [userId, setUserId] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleUserIdChange = (event) => {
     setUserId(event.target.value);
@@ -32,6 +33,16 @@ const LoginPage = () => {
   };
 
   const login = async () => {
+    if (!userId) {
+      setErrorMessage("ユーザーIDを入力してください");
+      return;
+    }
+    if (!password) {
+      setErrorMessage("パスワードを入力してください");
+      return;
+    }
+    setErrorMessage("");
+
     try {
       await axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/login`,
@@ -41,12 +52,11 @@ const LoginPage = () => {
         },
         { withCredentials: true }
       );
+      setCurrentUser({"userId": userId});
+      router.push("/");
     } catch {
-      alert("Login failed");
-      return;
+      setErrorMessage("ログインに失敗しました");
     }
-    setCurrentUser({"userId": userId});
-    router.push("/");
   };
 
   return (
@@ -90,6 +100,12 @@ const LoginPage = () => {
       >
         ログイン
       </Button>
+      <Typography
+        variant="body2"
+        sx={{ mt: 2, color: "error.light" }}
+      >
+        {errorMessage}
+      </Typography>
     </Container>
   );
 };
