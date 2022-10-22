@@ -81,7 +81,11 @@ const RegisterPage = () => {
       setCurrentUser({"userId": userId});
       router.push("/");
     } catch (error) {
-      setErrorMessage("エラーにより、アカウント作成に失敗しました");
+      if (error.response && error.response.status == 409) {
+        setErrorMessage("このユーザーIDは既に使われています");
+      } else {
+        setErrorMessage("エラーにより、アカウント作成に失敗しました");
+      }
     }
   };
 
