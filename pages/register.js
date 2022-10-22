@@ -39,6 +39,10 @@ const RegisterPage = () => {
       setErrorMessage("ユーザーIDを入力してください");
       return;
     }
+    if (/[^\w\-]/.test(userId)) {
+      setErrorMessage("ユーザーIDに使用できない文字が含まれています");
+      return;
+    }
     if (userId.length < 3) {
       setErrorMessage("ユーザーIDが短すぎます");
       return;
@@ -49,6 +53,10 @@ const RegisterPage = () => {
     }
     if (!password) {
       setErrorMessage("パスワードを入力してください");
+      return;
+    }
+    if (/[^\w\-#\$%\?\+:;\*]/.test(password)) {
+      setErrorMessage("パスワードに使用できない文字が含まれています");
       return;
     }
     if (password.length < 8) {
@@ -98,7 +106,7 @@ const RegisterPage = () => {
       <TextField
         fullWidth
         size="small"
-        helperText="8文字以上20文字以内の半角英数字または記号(-_#$%?+:;)"
+        helperText="8文字以上20文字以内の半角英数字または記号(-_#$%?+:;*)"
         InputProps={{
           endAdornment: (
             <InputAdornment position="end">
