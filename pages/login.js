@@ -1,5 +1,6 @@
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import IconButton from '@mui/material/IconButton';
@@ -9,6 +10,7 @@ import Typography from '@mui/material/Typography';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useContext, useState } from 'react';
+import Link from '../src/Link';
 import { UserContext } from './_app';
 
 const LoginPage = () => {
@@ -110,6 +112,16 @@ const LoginPage = () => {
       >
         {errorMessage}
       </Typography>
+      <Box sx={{ mt: 3 }}>
+        <Link
+          variant="body2"
+          color="common.black"
+          underline="hover"
+          href="/register"
+        >
+          アカウントを作成
+        </Link>
+      </Box>
     </Container>
   );
 };
