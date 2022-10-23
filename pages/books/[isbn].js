@@ -154,7 +154,14 @@ const BookPage = ({ book }) => {
               この本のレビューを削除しますか？
             </DialogContentText>
           </DialogContent>
-          <DialogActions>
+          <DialogActions sx={{ mt: 1 }}>
+            <Button
+              variant="outlined"
+              sx={{ color: "grey.500", borderColor: "grey.500" }}
+              onClick={() => setOpen(false)}
+            >
+              キャンセル
+            </Button>
             <Button
               variant="contained"
               color="error"
