@@ -130,16 +130,23 @@ const UserPage = ({ user }) => {
         {bookreviewRows}
       </Container>
       <Dialog open={open} onClose={handleDialogClose}>
-        <Box sx={{ p: 1 }}>
+        <Box sx={{ pr: 2, pb: 1 }}>
           <DialogContent>
             <DialogContentText>
               この本のレビューを削除しますか？
             </DialogContentText>
           </DialogContent>
-          <DialogActions>
+          <DialogActions sx={{ mt: 1 }}>
+            <Button
+              variant="outlined"
+              sx={{ color: "grey.500", borderColor: "grey.500" }}
+              onClick={handleDialogClose}
+            >
+              キャンセル
+            </Button>
             <Button
               variant="contained"
-              color="warning"
+              color="error"
               onClick={handleDeleteButtonClick}
             >
               削除
