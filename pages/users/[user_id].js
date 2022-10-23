@@ -19,7 +19,7 @@ import { UserContext } from '../_app';
 const UserPage = ({ user }) => {
   const { currentUser } = useContext(UserContext);
 
-  const [bookrecords, setBookrecords] = useState(user.bookrecords);
+  const [bookreviews, setBookreviews] = useState(user.bookreviews);
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState(undefined);
 
@@ -30,7 +30,7 @@ const UserPage = ({ user }) => {
 
   const handleDeleteButtonClick = async () => {
     await axios.delete(
-      `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/bookrecords/${selected}`,
+      `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/bookreviews/${selected}`,
       {
         headers: {
           "X-CSRF-TOKEN": getCookie("csrf_access_token")
@@ -38,8 +38,8 @@ const UserPage = ({ user }) => {
         withCredentials: true
       }
     );
-    const newBookrecords = bookrecords.slice().filter((br) => br.id !== selected)
-    setBookrecords(newBookrecords);
+    const newBookreviews = bookreviews.slice().filter((br) => br.id !== selected)
+    setBookreviews(newBookreviews);
     setSelected(undefined);
     setOpen(false);
   };
@@ -49,9 +49,9 @@ const UserPage = ({ user }) => {
     setOpen(false);
   };
 
-  const bookrecordRows = (
+  const bookreviewRows = (
     <Box>
-      {bookrecords.map((br) => (
+      {bookreviews.map((br) => (
         <Box key={br.isbn} sx={{ py: 2, display: "flex", borderBottom: 1, borderColor: "grey.400" }}>
           <Box sx={{ border: 1, borderColor: "grey.400" }}>
             <img src={br.img} width="80" />
@@ -69,7 +69,7 @@ const UserPage = ({ user }) => {
                 </Link>
                 <IconButton
                   component={NextLinkComposed}
-                  to={`/bookrecords/${br.id}/edit`}
+                  to={`/bookreviews/${br.id}/edit`}
                   size="small"
                   sx={{ ml: 0.5 }}
                 >
@@ -127,7 +127,7 @@ const UserPage = ({ user }) => {
             </Button>
           )}
         </Box>
-        {bookrecordRows}
+        {bookreviewRows}
       </Container>
       <Dialog open={open} onClose={handleDialogClose}>
         <Box sx={{ p: 1 }}>
@@ -156,7 +156,7 @@ export default UserPage;
 export const getServerSideProps = async ({ params }) => {
   const response = await axios.get(
     `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/users/${params.user_id}`,
-    { params: { withRecords: 1 } }
+    { params: { withReviews: 1 } }
   );
   const user = response.data;
 

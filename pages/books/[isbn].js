@@ -6,9 +6,9 @@ import axios from 'axios';
 import Link from '../../src/Link';
 
 const BookPage = ({ book }) => {
-  const bookrecordRows = (
+  const bookreviewRows = (
     <Box>
-      {book.bookrecords.map((br) => (
+      {book.bookreviews.map((br) => (
         <Box key={br.user_id} sx={{ py: 2, borderBottom: 1, borderColor: "grey.400" }}>
           <Box sx={{ display: "flex" }}>
             <Link
@@ -49,7 +49,7 @@ const BookPage = ({ book }) => {
         </Box>
       </Box>
       <Typography variant="subtitle1" sx={{ mt: 4 }}>レビュー一覧</Typography>
-      {book.bookrecords.length ? bookrecordRows: (
+      {book.bookreviews.length ? bookreviewRows: (
         <Typography variant="body2" sx={{ mt: 6, textAlign: "center" }}>
           まだレビューはありません
         </Typography>
@@ -63,7 +63,7 @@ export default BookPage;
 export const getServerSideProps = async ({ params }) => {
   const response = await axios.get(
     `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/books/${params.isbn}`,
-    { params: { withRecords: 1 } }
+    { params: { withReviews: 1 } }
   );
   const book = response.data;
 

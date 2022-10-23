@@ -10,7 +10,7 @@ import { useContext, useEffect, useState } from 'react';
 import { getCookie } from '../../src/utils';
 import { UserContext } from '../_app';
 
-const BookrecordCreatePage = () => {
+const BookreviewCreatePage = () => {
   const router = useRouter();
   const { currentUser } = useContext(UserContext);
   
@@ -31,7 +31,7 @@ const BookrecordCreatePage = () => {
     })();
   }, []);
 
-  const createBookrecord = async () => {
+  const createBookreview = async () => {
     if (!star) {
       setErrorMessage("5段階の評価のどれかを選んでください");
       return;
@@ -40,7 +40,7 @@ const BookrecordCreatePage = () => {
 
     try {
       await axios.post(
-        `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/bookrecords`,
+        `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/bookreviews`,
         { ...book, star, comment },
         {
           withCredentials: true,
@@ -95,7 +95,7 @@ const BookrecordCreatePage = () => {
           <Button
             variant="contained"
             sx={{ mt: 3 }}
-            onClick={createBookrecord}
+            onClick={createBookreview}
           >
             登録
           </Button>
@@ -118,4 +118,4 @@ const BookrecordCreatePage = () => {
   );
 };
 
-export default BookrecordCreatePage;
+export default BookreviewCreatePage;

@@ -10,7 +10,7 @@ import { useContext, useEffect, useState } from 'react';
 import { getCookie } from '../../../src/utils';
 import { UserContext } from '../../_app';
 
-const BookrecordEditPage = () => {
+const BookreviewEditPage = () => {
   const router = useRouter();
   const { currentUser } = useContext(UserContext);
   
@@ -25,24 +25,24 @@ const BookrecordEditPage = () => {
     }
     (async () => {
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/bookrecords/${router.query.id}`
+        `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/bookreviews/${router.query.id}`
       );
-      const bookrecord = response.data;
-      if (bookrecord.user_id !== currentUser.userId) {
+      const bookreview = response.data;
+      if (bookreview.user_id !== currentUser.userId) {
         router.push(`/users/${currentUser.userId}`);
       }
       setBook({
-        title: bookrecord.title,
-        author: bookrecord.author,
-        description: bookrecord.description,
-        img: bookrecord.img
+        title: bookreview.title,
+        author: bookreview.author,
+        description: bookreview.description,
+        img: bookreview.img
       });
-      setStar(bookrecord.star);
-      setComment(bookrecord.comment);
+      setStar(bookreview.star);
+      setComment(bookreview.comment);
     })();
   }, []);
 
-  const updateBookrecord = async () => {
+  const updateBookreview = async () => {
     if (!star) {
       setErrorMessage("5段階の評価のどれかを選んでください");
       return;
@@ -51,7 +51,7 @@ const BookrecordEditPage = () => {
 
     try {
       await axios.put(
-        `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/bookrecords/${router.query.id}`,
+        `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/bookreviews/${router.query.id}`,
         { star, comment },
         {
           withCredentials: true,
@@ -106,7 +106,7 @@ const BookrecordEditPage = () => {
           <Button
             variant="contained"
             sx={{ mt: 3 }}
-            onClick={updateBookrecord}
+            onClick={updateBookreview}
           >
             更新
           </Button>
@@ -129,4 +129,4 @@ const BookrecordEditPage = () => {
   );
 };
 
-export default BookrecordEditPage;
+export default BookreviewEditPage;
