@@ -13,7 +13,7 @@ import Typography from '@mui/material/Typography';
 import axios from 'axios';
 import { useContext, useState } from 'react';
 import Link, { NextLinkComposed } from '../../src/Link';
-import { getCookie } from '../../src/utils';
+import { formatDate, getCookie } from '../../src/utils';
 import { UserContext } from '../_app';
 
 const UserPage = ({ user }) => {
@@ -26,14 +26,6 @@ const UserPage = ({ user }) => {
   const [bookreviews, setBookreviews] = useState(initialBookreviews);
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState(undefined);
-
-  const formatDate = (date) => {
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1;
-    const day = date.getDate();
-
-    return `${year}/${month}/${day}`;
-  };
 
   const handleDeleteIconClick = (id) => {
     setSelected(id);
