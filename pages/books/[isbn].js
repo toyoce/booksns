@@ -13,14 +13,18 @@ import Typography from '@mui/material/Typography';
 import axios from 'axios';
 import { useContext, useState } from 'react';
 import Link, { NextLinkComposed } from '../../src/Link';
-import { getCookie } from '../../src/utils';
+import { formatDate, getCookie } from '../../src/utils';
 import { UserContext } from '../_app';
 
 const BookPage = ({ book }) => {
   const { currentUser } = useContext(UserContext);
 
+  const bookreviews = book.bookreviews.map((br) => (
+    { ...br, updated_at: new Date(br.updated_at) }
+  ));
+
   const [myReview, setMyReview] = useState(currentUser.userId ? (
-    book.bookreviews.filter((br) => (
+    bookreviews.filter((br) => (
       br.user_id === currentUser.userId
     ))[0]
   ) : undefined);
@@ -29,11 +33,11 @@ const BookPage = ({ book }) => {
   let otherUsersReviews;
   
   if (currentUser.userId) {
-    otherUsersReviews = book.bookreviews.filter((br) => (
+    otherUsersReviews = bookreviews.filter((br) => (
       br.user_id !== currentUser.userId
     ));
   } else {
-    otherUsersReviews = book.bookreviews;
+    otherUsersReviews = bookreviews;
   }
 
   const handleDeleteButtonClick = async () => {
@@ -63,7 +67,9 @@ const BookPage = ({ book }) => {
             >
               {br.user_id}
             </Link>
-            <Typography variant="body2" sx={{ ml: 1, color: "grey.700" }}>{"(2022/10/11)"}</Typography>
+            <Typography variant="body2" sx={{ ml: 1, color: "grey.700" }}>
+              {`(${formatDate(br.updated_at)})`}
+            </Typography>
           </Box>
           <Box sx={{ mt: 1 }}>
             <Rating value={br.star} size="small" readOnly />
@@ -102,7 +108,7 @@ const BookPage = ({ book }) => {
                 variant="body2"
                 sx={{ ml: 1, color: "grey.700" }}
               >
-                {"(2022/10/11)"}
+                {`(${formatDate(myReview.updated_at)})`}
               </Typography>
               <IconButton
                 component={NextLinkComposed}
