@@ -19,9 +19,21 @@ import { UserContext } from '../_app';
 const UserPage = ({ user }) => {
   const { currentUser } = useContext(UserContext);
 
-  const [bookreviews, setBookreviews] = useState(user.bookreviews);
+  const initialBookreviews = user.bookreviews.map((br) => (
+    { ...br, updated_at: new Date(br.updated_at) }
+  ));
+
+  const [bookreviews, setBookreviews] = useState(initialBookreviews);
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState(undefined);
+
+  const formatDate = (date) => {
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+
+    return `${year}/${month}/${day}`;
+  };
 
   const handleDeleteIconClick = (id) => {
     setSelected(id);
@@ -92,7 +104,7 @@ const UserPage = ({ user }) => {
             <Box sx={{ mt: 1, display: "flex" }}>
               <Rating value={br.star} size="small" readOnly />
               <Typography variant="body2" sx={{ ml: 1, color: "grey.700" }}>
-                {"(2022/10/11)"}
+                {`(${formatDate(br.updated_at)})`}
               </Typography>
             </Box>
             <Typography variant="body2" sx={{ mt: 1 }}>{br.comment}</Typography>
