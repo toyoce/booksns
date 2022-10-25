@@ -1,5 +1,6 @@
 import SearchIcon from '@mui/icons-material/Search';
 import Box from '@mui/material/Box';
+import CircularProgress from '@mui/material/CircularProgress';
 import Container from '@mui/material/Container';
 import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
@@ -75,7 +76,11 @@ const BooksPage = () => {
   let bookRowsArea;
 
   if (loading) {
-    bookRowsArea = <Typography sx={{ mt: 2 }}>Loading...</Typography>;
+    bookRowsArea = (
+      <Box sx={{ mt: 8, display: "flex", justifyContent: "center" }}>
+        <CircularProgress />
+      </Box>
+    );
   } else if (books.length) {
     bookRowsArea = bookRows;
   }

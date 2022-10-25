@@ -1,5 +1,6 @@
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import CircularProgress from '@mui/material/CircularProgress';
 import Container from '@mui/material/Container';
 import Rating from '@mui/material/Rating';
 import TextField from '@mui/material/TextField';
@@ -69,9 +70,9 @@ const BookreviewEditPage = () => {
   if (!book) {
     return (
       <Container>
-        <Typography variant="body1" sx={{ mt: 2 }}>
-          Loading...
-        </Typography>
+        <Box sx={{ mt: 8, display: "flex", justifyContent: "center" }}>
+          <CircularProgress />
+        </Box>
       </Container>
     );
   }
