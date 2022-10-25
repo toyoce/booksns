@@ -65,6 +65,12 @@ const LoginPage = () => {
     }
   };
 
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      login();
+    }
+  };
+
   return (
     <Container maxWidth="xs">
       <Typography variant="h6" sx={{ mt: 4 }}>
@@ -97,6 +103,7 @@ const LoginPage = () => {
         type={showPassword ? "text" : "password"}
         value={password}
         onChange={handlePasswordChange}
+        onKeyDown={handleKeyDown}
       />
       <Button
         variant="contained"
