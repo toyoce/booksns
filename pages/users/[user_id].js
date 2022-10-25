@@ -135,7 +135,11 @@ const UserPage = ({ user }) => {
             </Button>
           )}
         </Box>
-        {bookreviewRows}
+        {sortedBookreviews.length ? bookreviewRows : (
+          <Typography variant="body2" sx={{ mt: 6, textAlign: "center" }}>
+            まだレビューはありません
+          </Typography>
+        )}
       </Container>
       <Dialog open={open} onClose={handleDialogClose}>
         <Box sx={{ pr: 2, pb: 1 }}>
