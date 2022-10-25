@@ -40,6 +40,10 @@ const BookPage = ({ book }) => {
     otherUsersReviews = bookreviews;
   }
 
+  otherUsersReviews.sort((a, b) => (
+    a.updated_at.getTime() < b.updated_at.getTime() ? 1 : -1
+  ));
+
   const handleDeleteButtonClick = async () => {
     await axios.delete(
       `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/bookreviews/${myReview.id}`,

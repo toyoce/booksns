@@ -53,9 +53,13 @@ const UserPage = ({ user }) => {
     setOpen(false);
   };
 
+  const sortedBookreviews = bookreviews.sort((a, b) => (
+    a.updated_at.getTime() < b.updated_at.getTime() ? 1 : -1
+  ));
+
   const bookreviewRows = (
     <Box>
-      {bookreviews.map((br) => (
+      {sortedBookreviews.map((br) => (
         <Box key={br.isbn} sx={{ py: 2, display: "flex", borderBottom: 1, borderColor: "grey.400" }}>
           <Box sx={{ border: 1, borderColor: "grey.400" }}>
             <img src={br.img} width="80" />
