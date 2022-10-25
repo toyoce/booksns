@@ -1,10 +1,14 @@
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { Typography } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 import Toolbar from '@mui/material/Toolbar';
 import axios from 'axios';
 import { useRouter } from 'next/router';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { UserContext } from '../pages/_app';
 import Link, { NextLinkComposed } from '../src/Link';
 import { getCookie } from '../src/utils';
@@ -12,6 +16,22 @@ import { getCookie } from '../src/utils';
 export const Header = () => {
   const router = useRouter();
   const { currentUser, setCurrentUser } = useContext(UserContext);
+
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleIconClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMypageClick = () => {
+    router.push(`/users/${currentUser.userId}`);
+    setAnchorEl(null);
+  };
+
+  const handleLogoutClick = () => {
+    logout();
+    setAnchorEl(null);
+  };
 
   const logout = async () => {
     await axios({
@@ -42,23 +62,17 @@ export const Header = () => {
           <Typography variant="body1">
             {`${currentUser.userId} さん`}
           </Typography>
-          <Button
-            variant="contained"
-            component={NextLinkComposed}
-            to={`/users/${currentUser.userId}`}
-            color="info"
-            sx={{ ml: 2 }}
+          <IconButton sx={{ ml: 2 }} onClick={handleIconClick}>
+            <AccountCircleIcon fontSize="large" />
+          </IconButton>
+          <Menu
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={() => setAnchorEl(null)}
           >
-            マイページ
-          </Button>
-          <Button
-            variant="contained"
-            color="info"
-            sx={{ ml: 2 }}
-            onClick={logout}
-          >
-            ログアウト
-          </Button>
+            <MenuItem onClick={handleMypageClick}>マイページ</MenuItem>
+            <MenuItem onClick={handleLogoutClick}>ログアウト</MenuItem>
+          </Menu>
         </Toolbar>
       ) : (
         <Toolbar>
