@@ -50,7 +50,7 @@ const Home = ({ highlyRatedBooks, mostReviewedBooks }) => {
         {highlyRatedBooks.map((book) => (
           <Box key={book.isbn} sx={{ mr: 3, mb: 1, border: 1, borderColor: "grey.400" }}>
             <Link href={`/books/${book.isbn}`}>
-              <img src={book.img} width="136" />
+              <img src={book.img} width="128" />
             </Link>
           </Box>
         ))}
@@ -60,7 +60,7 @@ const Home = ({ highlyRatedBooks, mostReviewedBooks }) => {
         {mostReviewedBooks.map((book) => (
           <Box key={book.isbn} sx={{ mr: 3, mb: 1, border: 1, borderColor: "grey.400" }}>
             <Link href={`/books/${book.isbn}`}>
-              <img src={book.img} width="136" />
+              <img src={book.img} width="128" />
             </Link>
           </Box>
         ))}

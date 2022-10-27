@@ -88,8 +88,8 @@ const BookPage = ({ book }) => {
     <>
       <Container>
         <Box sx={{ mt: 2, display: "flex" }}>
-          <Box sx={{ border: 1, borderColor: "grey.400" }}>
-            <img src={book.img} />
+          <Box>
+            <img src={book.img} width="128" style={{ border: "1px solid silver" }} />
           </Box>
           <Box sx={{ ml: 3 }}>
             <Typography variant="h6">{book.title}</Typography>
