@@ -46,21 +46,21 @@ const Home = ({ highlyRatedBooks, mostReviewedBooks }) => {
         onKeyDown={handleKeyDown}
       />
       <Typography variant="h6" sx={{ mt: 3 }}>評価が高い本</Typography>
-      <Box sx={{ mt: 1, display: "flex", flexWrap: "wrap" }}>
+      <Box sx={{ mt: 1, overflow: "auto", whiteSpace: "nowrap" }}>
         {highlyRatedBooks.map((book) => (
-          <Box key={book.isbn} sx={{ mr: 3, mb: 1, border: 1, borderColor: "grey.400" }}>
+          <Box key={book.isbn} sx={{ mr: 3, my: 1, display: "inline-block" }}>
             <Link href={`/books/${book.isbn}`}>
-              <img src={book.img} width="128" />
+              <img src={book.img} width="128" height="176" style={{ border: "1px solid silver" }} />
             </Link>
           </Box>
         ))}
       </Box>
       <Typography variant="h6" sx={{ mt: 3 }}>レビュー数が多い本</Typography>
-      <Box sx={{ mt: 1, display: "flex", flexWrap: "wrap" }}>
+      <Box sx={{ mt: 1, overflow: "auto", whiteSpace: "nowrap" }}>
         {mostReviewedBooks.map((book) => (
-          <Box key={book.isbn} sx={{ mr: 3, mb: 1, border: 1, borderColor: "grey.400" }}>
+          <Box key={book.isbn} sx={{ mr: 3, my: 1, display: "inline-block" }}>
             <Link href={`/books/${book.isbn}`}>
-              <img src={book.img} width="128" />
+              <img src={book.img} width="128" height="176" style={{ border: "1px solid silver" }} />
             </Link>
           </Box>
         ))}
@@ -73,8 +73,8 @@ export default Home;
 
 export const getServerSideProps = async () => {
   const responses = await Promise.all([
-    axios.get(`${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/highly-rated-books`),
-    axios.get(`${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/most-reviewed-books`)
+    axios.get(`${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/highly-rated-books`, { params: { topn: 10 } }),
+    axios.get(`${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/most-reviewed-books`, { params: { topn: 10 } })
   ]);
   
   const highlyRatedBooks = responses[0].data.books;
