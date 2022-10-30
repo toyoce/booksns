@@ -1,5 +1,6 @@
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -87,7 +88,7 @@ const BookPage = ({ book }) => {
     bookreviewRows = (
       <Box>
         {othersReviews.map((br) => (
-          <Box key={br.user_id} sx={{ py: 2, borderBottom: 1, borderColor: "grey.400" }}>
+          <Box key={br.user_id} sx={{ pt: 2, pb: 1, borderBottom: 1, borderColor: "grey.400" }}>
             <Box sx={{ display: "flex" }}>
               <Link
                 variant="body2"
@@ -105,6 +106,16 @@ const BookPage = ({ book }) => {
               <Rating value={br.star} size="small" readOnly />
             </Box>
             <Typography variant="body2">{br.comment}</Typography>
+            <Box sx={{ mt: 0.5, display: "flex", alignItems: "center" }}>
+              <IconButton
+                size="small"
+                color={br.my_review ? "primary" : "default"}
+                disabled={Boolean(!currentUser.userId)}
+              >
+                <ThumbUpIcon fontSize="inherit" />
+              </IconButton>
+              <Typography variant="body2" sx={{ ml: 0.5 }}>{br.like_count}</Typography>
+            </Box>
           </Box>
         ))}
       </Box>
