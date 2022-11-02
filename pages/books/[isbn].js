@@ -80,8 +80,7 @@ const BookPage = ({ book }) => {
     if (bookreview.my_like) {
       deleteLike(bookreview.id);
     } else {
-      // createLike(bookreview.id);
-      alert("create like");
+      createLike(bookreview.id);
     }
   };
 
@@ -103,6 +102,27 @@ const BookPage = ({ book }) => {
     const targetBookreview = newOthersReviews.find((br) => br.id === bookreviewId);
     targetBookreview.like_count -= 1;
     targetBookreview.my_like = 0;
+    setOthersReviews(newOthersReviews);
+  };
+
+  const createLike = async (bookreviewId) => {
+    await axios.post(
+      `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/likes`,
+      {
+        bookreview_id: bookreviewId
+      },
+      {
+        headers: {
+          "X-CSRF-TOKEN": getCookie("csrf_access_token")
+        },
+        withCredentials: true,
+      }
+    );
+
+    const newOthersReviews = othersReviews.slice();
+    const targetBookreview = newOthersReviews.find((br) => br.id === bookreviewId);
+    targetBookreview.like_count += 1;
+    targetBookreview.my_like = 1;
     setOthersReviews(newOthersReviews);
   };
 
