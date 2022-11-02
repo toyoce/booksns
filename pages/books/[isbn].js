@@ -76,6 +76,36 @@ const BookPage = ({ book }) => {
     setOpen(false);
   };
 
+  const handleThumpUpIconClick = (bookreview) => {
+    if (bookreview.my_like) {
+      deleteLike(bookreview.id);
+    } else {
+      // createLike(bookreview.id);
+      alert("create like");
+    }
+  };
+
+  const deleteLike = async (bookreviewId) => {
+    await axios.delete(
+      `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/likes`,
+      {
+        headers: {
+          "X-CSRF-TOKEN": getCookie("csrf_access_token")
+        },
+        withCredentials: true,
+        data: {
+          bookreview_id: bookreviewId
+        }
+      }
+    );
+
+    const newOthersReviews = othersReviews.slice();
+    const targetBookreview = newOthersReviews.find((br) => br.id === bookreviewId);
+    targetBookreview.like_count -= 1;
+    targetBookreview.my_like = 0;
+    setOthersReviews(newOthersReviews);
+  };
+
   let bookreviewRows;
 
   if (!othersReviews) {
@@ -109,8 +139,9 @@ const BookPage = ({ book }) => {
             <Box sx={{ mt: 0.5, display: "flex", alignItems: "center" }}>
               <IconButton
                 size="small"
-                color={br.my_review ? "primary" : "default"}
+                color={br.my_like ? "primary" : "default"}
                 disabled={Boolean(!currentUser.userId)}
+                onClick={() => handleThumpUpIconClick(br)}
               >
                 <ThumbUpIcon fontSize="inherit" />
               </IconButton>
