@@ -222,6 +222,12 @@ const BookPage = ({ book }) => {
               </IconButton>
             </Box>
             <Typography variant="body2" sx={{ mt: 1 }}>{myReview.comment}</Typography>
+            <Box sx={{ mt: 0.5, display: "flex", alignItems: "center" }}>
+              <IconButton size="small" disabled>
+                <ThumbUpIcon fontSize="inherit" />
+              </IconButton>
+              <Typography variant="body2" sx={{ ml: 0.5 }}>{myReview.like_count}</Typography>
+            </Box>
           </>
         )}
         <Box sx={{ mt: 4, display: "flex", alignItems: "center" }}>
