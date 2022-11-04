@@ -7,11 +7,14 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import axios from 'axios';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Link from '../src/Link';
+import { getCookie } from '../src/utils';
+import { UserContext } from './_app';
 
 const BooksPage = () => {
   const router = useRouter();
+  const { currentUser } = useContext(UserContext);
 
   const [keyword, setKeyword] = useState(router.query.keyword || "");
   const [books, setBooks] = useState([]);
@@ -38,9 +41,21 @@ const BooksPage = () => {
     if (event.key === "Enter" && keyword) {
       setBooks([]);
       setLoading(true);
+      let config = {
+        params: { keyword }
+      };
+      if (currentUser.userId && router.query.addReview) {
+        config = {
+          ...config,
+          withCredentials: true,
+          headers: {
+            "X-CSRF-TOKEN": getCookie("csrf_access_token")
+          }
+        };
+      }
       const response = await axios.get(
         `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/books`,
-        { params: { keyword } }
+        config
       );
       setBooks(response.data.books);
       setLoading(false);
