@@ -1,8 +1,10 @@
 import SearchIcon from '@mui/icons-material/Search';
+import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
+import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import axios from 'axios';
 import { useRouter } from 'next/router';
@@ -28,44 +30,51 @@ const Home = ({ highlyRatedBooks, mostReviewedBooks }) => {
   };
 
   return (
-    <Container>
-      <TextField
-        fullWidth
-        placeholder="気になる本のタイトルを入力してください"
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <SearchIcon />
-            </InputAdornment>
-          ),
-        }}
-        sx={{ mt: 3 }}
-        variant="outlined"
-        value={keyword}
-        onChange={handleTextChange}
-        onKeyDown={handleKeyDown}
-      />
-      <Typography variant="h6" sx={{ mt: 3 }}>評価が高い本</Typography>
-      <Box sx={{ mt: 1, overflow: "auto", whiteSpace: "nowrap" }}>
-        {highlyRatedBooks.map((book) => (
-          <Box key={book.isbn} sx={{ mr: 3, my: 1, display: "inline-block" }}>
-            <Link href={`/books/${book.isbn}`}>
-              <img src={book.img} width="128" height="176" style={{ border: "1px solid silver" }} />
-            </Link>
-          </Box>
-        ))}
-      </Box>
-      <Typography variant="h6" sx={{ mt: 3 }}>レビュー数が多い本</Typography>
-      <Box sx={{ mt: 1, overflow: "auto", whiteSpace: "nowrap" }}>
-        {mostReviewedBooks.map((book) => (
-          <Box key={book.isbn} sx={{ mr: 3, my: 1, display: "inline-block" }}>
-            <Link href={`/books/${book.isbn}`}>
-              <img src={book.img} width="128" height="176" style={{ border: "1px solid silver" }} />
-            </Link>
-          </Box>
-        ))}
-      </Box>
-    </Container>
+    <>
+      <Container>
+        <TextField
+          fullWidth
+          placeholder="気になる本のタイトルを入力してください"
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon />
+              </InputAdornment>
+            ),
+          }}
+          sx={{ mt: 3 }}
+          variant="outlined"
+          value={keyword}
+          onChange={handleTextChange}
+          onKeyDown={handleKeyDown}
+        />
+        <Typography variant="h6" sx={{ mt: 3 }}>評価が高い本</Typography>
+        <Box sx={{ mt: 1, overflow: "auto", whiteSpace: "nowrap" }}>
+          {highlyRatedBooks.map((book) => (
+            <Box key={book.isbn} sx={{ mr: 3, my: 1, display: "inline-block" }}>
+              <Link href={`/books/${book.isbn}`}>
+                <img src={book.img} width="128" height="176" style={{ border: "1px solid silver" }} />
+              </Link>
+            </Box>
+          ))}
+        </Box>
+        <Typography variant="h6" sx={{ mt: 3 }}>レビュー数が多い本</Typography>
+        <Box sx={{ mt: 1, overflow: "auto", whiteSpace: "nowrap" }}>
+          {mostReviewedBooks.map((book) => (
+            <Box key={book.isbn} sx={{ mr: 3, my: 1, display: "inline-block" }}>
+              <Link href={`/books/${book.isbn}`}>
+                <img src={book.img} width="128" height="176" style={{ border: "1px solid silver" }} />
+              </Link>
+            </Box>
+          ))}
+        </Box>
+      </Container>
+      <AppBar color="transparent" position="static" sx={{ mt: 8 }}>
+        <Toolbar>
+          <a href="https://webservice.rakuten.co.jp/" target="_blank"><img src="https://webservice.rakuten.co.jp/img/credit/200709/credit_31130.gif" border="0" alt="Rakuten Web Service Center" title="Rakuten Web Service Center" width="311" height="30"/></a>
+        </Toolbar>
+      </AppBar>
+    </>
   );
 };
 
