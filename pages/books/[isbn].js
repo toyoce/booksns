@@ -1,5 +1,6 @@
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -187,7 +188,19 @@ const BookPage = ({ book }) => {
             <img src={book.img} width="128" style={{ border: "1px solid silver" }} />
           </Box>
           <Box sx={{ ml: 3 }}>
-            <Typography variant="h6">{book.title}</Typography>
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <Link
+                variant="h6"
+                underline="hover"
+                color="text.primary"
+                href={book.url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {book.title}
+              </Link>
+              <OpenInNewIcon fontSize="inherit" sx={{ ml: 0.5 }} />
+            </Box>
             <Typography variant="body2">{book.author}</Typography>
             <Box sx={{ mt: 1, display: "flex" }}>
               <Rating value={Math.round(book.star*2)/2} precision={0.5} readOnly />
