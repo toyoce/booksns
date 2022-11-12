@@ -98,7 +98,7 @@ const RegisterPage = () => {
   return (
     <Container maxWidth="xs">
       <Typography variant="h6" sx={{ mt: 4 }}>
-        Bookshareへようこそ
+        Booksnsへようこそ
       </Typography>
       <Typography variant="subtitle2" sx={{ mt: 4 }}>
         ユーザーID
