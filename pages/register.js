@@ -79,7 +79,7 @@ const RegisterPage = () => {
         { withCredentials: true }
       );
       setCurrentUser({"userId": userId});
-      router.push("/");
+      router.push(`/users/${userId}`);
     } catch (error) {
       if (error.response && error.response.status == 409) {
         setErrorMessage("このユーザーIDは既に使われています");
