@@ -184,9 +184,11 @@ const BookPage = ({ book }) => {
     <>
       <Container>
         <Box sx={{ mt: 2, display: "flex" }}>
-          <Box>
-            <img src={book.img} width="128" style={{ border: "1px solid silver" }} />
-          </Box>
+          <Box
+            component="img"
+            src={book.img}
+            sx={{ width: 128, height: 176, border: 1, borderColor: "grey.400" }}
+          />
           <Box sx={{ ml: 3 }}>
             <Box sx={{ display: "flex", alignItems: "center" }}>
               <Link

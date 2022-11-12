@@ -66,9 +66,11 @@ const BooksPage = () => {
     <Box>
       {books.map((b) => (
         <Box key={b.isbn} sx={{ py: 2, display: "flex", borderBottom: 1, borderColor: "grey.400" }}>
-          <Box>
-            <img src={b.img} width="80" style={{ border: "1px solid silver" }} />
-          </Box>
+          <Box
+            component="img"
+            src={b.img}
+            sx={{ width: 80, height: 110, border: 1, borderColor: "grey.400" }}
+          />
           <Box sx={{ ml: 2 }}>
             <Link
               variant="body2"

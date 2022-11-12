@@ -144,9 +144,11 @@ const UserPage = () => {
       <Box>
         {bookreviews.map((br) => (
           <Box key={br.isbn} sx={{ py: 2, display: "flex", borderBottom: 1, borderColor: "grey.400" }}>
-            <Box>
-              <img src={br.img} width="80" style={{ border: "1px solid silver" }} />
-            </Box>
+            <Box
+              component="img"
+              src={br.img}
+              sx={{ width: 80, height: 110, border: 1, borderColor: "grey.400" }}
+            />
             <Box sx={{ ml: 2 }}>
               {currentUser.userId === user_id ? (
                 <Box sx={{ display: "flex", alignItems: "center" }}>

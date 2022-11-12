@@ -80,9 +80,11 @@ const BookreviewEditPage = () => {
   return (
     <Container>
       <Box sx={{ mt: 2, display: "flex" }}>
-        <Box>
-          <img src={book.img} width="128" style={{ border: "1px solid silver" }} />
-        </Box>
+        <Box
+          component="img"
+          src={book.img}
+          sx={{ width: 128, height: 176, border: 1, borderColor: "grey.400" }}
+        />
         <Box sx={{ ml: 3, flexGrow: 1 }}>
           <Typography variant="h6">{book.title}</Typography>
           <Typography variant="body2">{book.author}</Typography>
