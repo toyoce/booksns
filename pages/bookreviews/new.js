@@ -8,7 +8,7 @@ import Typography from '@mui/material/Typography';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
-import { getCookie } from '../../src/utils';
+import { convertToHalf, getCookie } from '../../src/utils';
 import { UserContext } from '../_app';
 
 const BookreviewCreatePage = () => {
@@ -77,7 +77,9 @@ const BookreviewCreatePage = () => {
         <Box sx={{ ml: 3, flexGrow: 1 }}>
           <Typography variant="h6">{book.title}</Typography>
           <Typography variant="body2">{book.author}</Typography>
-          <Typography variant="body2" sx={{ mt: 1 }}>{book.description}</Typography>
+          <Typography variant="body2" sx={{ mt: 1 }}>
+            {convertToHalf(book.description)}
+          </Typography>
           <Typography variant="subtitle1" sx={{ mt: 3 }}>評価</Typography>
           <Rating
             value={star}

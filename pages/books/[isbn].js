@@ -17,7 +17,7 @@ import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
 import Link, { NextLinkComposed } from '../../src/Link';
-import { formatDate, getCookie } from '../../src/utils';
+import { convertToHalf, formatDate, getCookie } from '../../src/utils';
 import { UserContext } from '../_app';
 
 const BookPage = ({ book }) => {
@@ -210,7 +210,9 @@ const BookPage = ({ book }) => {
                 {`${book.star.toFixed(1)} (${book.reviewCount})`}
               </Typography>
             </Box>
-            <Typography variant="body2" sx={{ mt: 1 }}>{book.description}</Typography>
+            <Typography variant="body2" sx={{ mt: 1 }}>
+              {convertToHalf(book.description)}
+            </Typography>
           </Box>
         </Box>
         {myReview && (
