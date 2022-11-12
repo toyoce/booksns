@@ -205,7 +205,7 @@ const BookPage = ({ book }) => {
             <Box sx={{ mt: 1, display: "flex" }}>
               <Rating value={Math.round(book.star*2)/2} precision={0.5} readOnly />
               <Typography variant="body1" sx={{ ml: 1 }}>
-                {`${Math.round(book.star*10)/10} (${book.reviewCount})`}
+                {`${book.star.toFixed(1)} (${book.reviewCount})`}
               </Typography>
             </Box>
             <Typography variant="body2" sx={{ mt: 1 }}>{book.description}</Typography>
