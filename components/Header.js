@@ -83,7 +83,7 @@ export const Header = () => {
             href="/"
             sx={{ flexGrow: 1 }}
           >
-            Bookshare
+            Booksns
           </Link>
           <Button
             variant="contained"
