@@ -53,7 +53,17 @@ const Home = ({ highlyRatedBooks, mostReviewedBooks }) => {
           {highlyRatedBooks.map((book) => (
             <Box key={book.isbn} sx={{ mr: 3, my: 1, display: "inline-block" }}>
               <Link href={`/books/${book.isbn}`}>
-                <img src={book.img} width="128" height="176" style={{ border: "1px solid silver" }} />
+                <Box
+                  component="img"
+                  src={book.img}
+                  sx={{
+                    width: 128,
+                    height: 176,
+                    border: 1,
+                    borderColor: "grey.400",
+                    "&:hover": { opacity: 0.7 }
+                  }}
+                />
               </Link>
             </Box>
           ))}
@@ -63,7 +73,17 @@ const Home = ({ highlyRatedBooks, mostReviewedBooks }) => {
           {mostReviewedBooks.map((book) => (
             <Box key={book.isbn} sx={{ mr: 3, my: 1, display: "inline-block" }}>
               <Link href={`/books/${book.isbn}`}>
-                <img src={book.img} width="128" height="176" style={{ border: "1px solid silver" }} />
+                <Box
+                  component="img"
+                  src={book.img}
+                  sx={{
+                    width: 128,
+                    height: 176,
+                    border: 1,
+                    borderColor: "grey.400",
+                    "&:hover": { opacity: 0.7 }
+                  }}
+                />
               </Link>
             </Box>
           ))}
