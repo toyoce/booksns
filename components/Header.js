@@ -1,18 +1,18 @@
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { Typography } from '@mui/material';
-import AppBar from '@mui/material/AppBar';
-import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import Toolbar from '@mui/material/Toolbar';
-import axios from 'axios';
-import { useRouter } from 'next/router';
-import { useContext, useState } from 'react';
-import { toast } from 'react-toastify';
-import { UserContext } from '../pages/_app';
-import Link, { NextLinkComposed } from '../src/Link';
-import { getCookie } from '../src/utils';
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { Typography } from "@mui/material";
+import AppBar from "@mui/material/AppBar";
+import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import Toolbar from "@mui/material/Toolbar";
+import axios from "axios";
+import { useRouter } from "next/router";
+import { useContext, useState } from "react";
+import { toast } from "react-toastify";
+import { UserContext } from "../pages/_app";
+import Link, { NextLinkComposed } from "../src/Link";
+import { getCookie } from "../src/utils";
 
 export const Header = () => {
   const router = useRouter();
@@ -39,11 +39,11 @@ export const Header = () => {
       method: "post",
       url: `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/logout`,
       headers: {
-        "X-CSRF-TOKEN": getCookie("csrf_access_token")
+        "X-CSRF-TOKEN": getCookie("csrf_access_token"),
       },
-      withCredentials: true
+      withCredentials: true,
     });
-    setCurrentUser({"userId": undefined});
+    setCurrentUser({ userId: undefined });
     toast.success("ログアウトしました");
     router.push("/");
   };

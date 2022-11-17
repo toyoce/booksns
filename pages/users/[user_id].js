@@ -1,24 +1,24 @@
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-import ThumbUpIcon from '@mui/icons-material/ThumbUp';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import CircularProgress from '@mui/material/CircularProgress';
-import Container from '@mui/material/Container';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import IconButton from '@mui/material/IconButton';
-import Rating from '@mui/material/Rating';
-import Typography from '@mui/material/Typography';
-import axios from 'axios';
-import { useRouter } from 'next/router';
-import { useContext, useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
-import Link, { NextLinkComposed } from '../../src/Link';
-import { formatDate, getCookie } from '../../src/utils';
-import { UserContext } from '../_app';
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import CircularProgress from "@mui/material/CircularProgress";
+import Container from "@mui/material/Container";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import IconButton from "@mui/material/IconButton";
+import Rating from "@mui/material/Rating";
+import Typography from "@mui/material/Typography";
+import axios from "axios";
+import { useRouter } from "next/router";
+import { useContext, useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import Link, { NextLinkComposed } from "../../src/Link";
+import { formatDate, getCookie } from "../../src/utils";
+import { UserContext } from "../_app";
 
 const UserPage = () => {
   const router = useRouter();
@@ -32,26 +32,26 @@ const UserPage = () => {
   useEffect(() => {
     (async () => {
       let config = {
-        params: { user_id }
+        params: { user_id },
       };
       if (currentUser.userId) {
         config = {
           ...config,
           withCredentials: true,
           headers: {
-            "X-CSRF-TOKEN": getCookie("csrf_access_token")
-          }
+            "X-CSRF-TOKEN": getCookie("csrf_access_token"),
+          },
         };
       }
       const response = await axios.get(
         `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/bookreviews`,
         config
       );
-      const initialBookreviews = response.data.bookreviews.map((br) => (
-        { ...br, updated_at: new Date(br.updated_at) }
-      )).sort((a, b) => (
-        a.updated_at.getTime() < b.updated_at.getTime() ? 1 : -1
-      ));
+      const initialBookreviews = response.data.bookreviews
+        .map((br) => ({ ...br, updated_at: new Date(br.updated_at) }))
+        .sort((a, b) =>
+          a.updated_at.getTime() < b.updated_at.getTime() ? 1 : -1
+        );
       setBookreviews(initialBookreviews);
     })();
   }, []);
@@ -66,12 +66,14 @@ const UserPage = () => {
       `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/bookreviews/${selected}`,
       {
         headers: {
-          "X-CSRF-TOKEN": getCookie("csrf_access_token")
+          "X-CSRF-TOKEN": getCookie("csrf_access_token"),
         },
-        withCredentials: true
+        withCredentials: true,
       }
     );
-    const newBookreviews = bookreviews.slice().filter((br) => br.id !== selected)
+    const newBookreviews = bookreviews
+      .slice()
+      .filter((br) => br.id !== selected);
     setBookreviews(newBookreviews);
     setSelected(undefined);
     setOpen(false);
@@ -92,21 +94,20 @@ const UserPage = () => {
   };
 
   const deleteLike = async (bookreviewId) => {
-    await axios.delete(
-      `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/likes`,
-      {
-        headers: {
-          "X-CSRF-TOKEN": getCookie("csrf_access_token")
-        },
-        withCredentials: true,
-        data: {
-          bookreview_id: bookreviewId
-        }
-      }
-    );
+    await axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/likes`, {
+      headers: {
+        "X-CSRF-TOKEN": getCookie("csrf_access_token"),
+      },
+      withCredentials: true,
+      data: {
+        bookreview_id: bookreviewId,
+      },
+    });
 
     const newBookreviews = bookreviews.slice();
-    const targetBookreview = newBookreviews.find((br) => br.id === bookreviewId);
+    const targetBookreview = newBookreviews.find(
+      (br) => br.id === bookreviewId
+    );
     targetBookreview.like_count -= 1;
     targetBookreview.my_like = 0;
     setBookreviews(newBookreviews);
@@ -116,18 +117,20 @@ const UserPage = () => {
     await axios.post(
       `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/likes`,
       {
-        bookreview_id: bookreviewId
+        bookreview_id: bookreviewId,
       },
       {
         headers: {
-          "X-CSRF-TOKEN": getCookie("csrf_access_token")
+          "X-CSRF-TOKEN": getCookie("csrf_access_token"),
         },
         withCredentials: true,
       }
     );
 
     const newBookreviews = bookreviews.slice();
-    const targetBookreview = newBookreviews.find((br) => br.id === bookreviewId);
+    const targetBookreview = newBookreviews.find(
+      (br) => br.id === bookreviewId
+    );
     targetBookreview.like_count += 1;
     targetBookreview.my_like = 1;
     setBookreviews(newBookreviews);
@@ -145,11 +148,24 @@ const UserPage = () => {
     bookreviewRows = (
       <Box>
         {bookreviews.map((br) => (
-          <Box key={br.isbn} sx={{ py: 2, display: "flex", borderBottom: 1, borderColor: "grey.400" }}>
+          <Box
+            key={br.isbn}
+            sx={{
+              py: 2,
+              display: "flex",
+              borderBottom: 1,
+              borderColor: "grey.400",
+            }}
+          >
             <Box
               component="img"
               src={br.img}
-              sx={{ width: 80, height: 110, border: 1, borderColor: "grey.400" }}
+              sx={{
+                width: 80,
+                height: 110,
+                border: 1,
+                borderColor: "grey.400",
+              }}
             />
             <Box sx={{ ml: 2 }}>
               {currentUser.userId === user_id ? (
@@ -170,7 +186,10 @@ const UserPage = () => {
                   >
                     <EditIcon fontSize="inherit" />
                   </IconButton>
-                  <IconButton size="small" onClick={() => handleDeleteIconClick(br.id)}>
+                  <IconButton
+                    size="small"
+                    onClick={() => handleDeleteIconClick(br.id)}
+                  >
                     <DeleteIcon fontSize="inherit" />
                   </IconButton>
                 </Box>
@@ -190,17 +209,23 @@ const UserPage = () => {
                   {`(${formatDate(br.updated_at)})`}
                 </Typography>
               </Box>
-              <Typography variant="body2" sx={{ mt: 1 }}>{br.comment}</Typography>
+              <Typography variant="body2" sx={{ mt: 1 }}>
+                {br.comment}
+              </Typography>
               <Box sx={{ mt: 0.5, display: "flex", alignItems: "center" }}>
                 <IconButton
                   size="small"
                   color={br.my_like ? "primary" : "default"}
-                  disabled={Boolean(!currentUser.userId || currentUser.userId === user_id)}
+                  disabled={Boolean(
+                    !currentUser.userId || currentUser.userId === user_id
+                  )}
                   onClick={() => handleThumpUpIconClick(br)}
                 >
                   <ThumbUpIcon fontSize="inherit" />
                 </IconButton>
-                <Typography variant="body2" sx={{ ml: 0.5 }}>{br.like_count}</Typography>
+                <Typography variant="body2" sx={{ ml: 0.5 }}>
+                  {br.like_count}
+                </Typography>
               </Box>
             </Box>
           </Box>

@@ -1,16 +1,16 @@
-import SearchIcon from '@mui/icons-material/Search';
-import Box from '@mui/material/Box';
-import CircularProgress from '@mui/material/CircularProgress';
-import Container from '@mui/material/Container';
-import InputAdornment from '@mui/material/InputAdornment';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
-import axios from 'axios';
-import { useRouter } from 'next/router';
-import { useContext, useEffect, useState } from 'react';
-import Link from '../src/Link';
-import { getCookie } from '../src/utils';
-import { UserContext } from './_app';
+import SearchIcon from "@mui/icons-material/Search";
+import Box from "@mui/material/Box";
+import CircularProgress from "@mui/material/CircularProgress";
+import Container from "@mui/material/Container";
+import InputAdornment from "@mui/material/InputAdornment";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import axios from "axios";
+import { useRouter } from "next/router";
+import { useContext, useEffect, useState } from "react";
+import Link from "../src/Link";
+import { getCookie } from "../src/utils";
+import { UserContext } from "./_app";
 
 const BooksPage = () => {
   const router = useRouter();
@@ -42,15 +42,15 @@ const BooksPage = () => {
       setBooks([]);
       setLoading(true);
       let config = {
-        params: { keyword }
+        params: { keyword },
       };
       if (currentUser.userId && router.query.addReview) {
         config = {
           ...config,
           withCredentials: true,
           headers: {
-            "X-CSRF-TOKEN": getCookie("csrf_access_token")
-          }
+            "X-CSRF-TOKEN": getCookie("csrf_access_token"),
+          },
         };
       }
       const response = await axios.get(
@@ -65,7 +65,15 @@ const BooksPage = () => {
   const bookRows = (
     <Box>
       {books.map((b) => (
-        <Box key={b.isbn} sx={{ py: 2, display: "flex", borderBottom: 1, borderColor: "grey.400" }}>
+        <Box
+          key={b.isbn}
+          sx={{
+            py: 2,
+            display: "flex",
+            borderBottom: 1,
+            borderColor: "grey.400",
+          }}
+        >
           <Box
             component="img"
             src={b.img}
@@ -76,14 +84,20 @@ const BooksPage = () => {
               variant="body2"
               color="text.primary"
               underline="hover"
-              href={router.query.addReview ? {
-                pathname: "/bookreviews/new",
-                query: { isbn: b.isbn },
-              } : `/books/${b.isbn}`}
+              href={
+                router.query.addReview
+                  ? {
+                      pathname: "/bookreviews/new",
+                      query: { isbn: b.isbn },
+                    }
+                  : `/books/${b.isbn}`
+              }
             >
               {b.title}
             </Link>
-            <Typography variant="body2" sx={{ mt: 1 }}>{b.author}</Typography>
+            <Typography variant="body2" sx={{ mt: 1 }}>
+              {b.author}
+            </Typography>
           </Box>
         </Box>
       ))}
@@ -106,9 +120,11 @@ const BooksPage = () => {
     <Container>
       <TextField
         fullWidth
-        placeholder={router.query.addReview ? (
-          "レビューを追加したい本のタイトルを入力してください"
-        ) : "気になる本のタイトルを入力してください"}
+        placeholder={
+          router.query.addReview
+            ? "レビューを追加したい本のタイトルを入力してください"
+            : "気になる本のタイトルを入力してください"
+        }
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">

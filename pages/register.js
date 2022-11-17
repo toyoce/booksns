@@ -1,17 +1,17 @@
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
-import IconButton from '@mui/material/IconButton';
-import InputAdornment from '@mui/material/InputAdornment';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
-import axios from 'axios';
-import { useRouter } from 'next/router';
-import { useContext, useState } from 'react';
-import Link from '../src/Link';
-import { UserContext } from './_app';
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Container from "@mui/material/Container";
+import IconButton from "@mui/material/IconButton";
+import InputAdornment from "@mui/material/InputAdornment";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import axios from "axios";
+import { useRouter } from "next/router";
+import { useContext, useState } from "react";
+import Link from "../src/Link";
+import { UserContext } from "./_app";
 
 const RegisterPage = () => {
   const router = useRouter();
@@ -76,11 +76,11 @@ const RegisterPage = () => {
         `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/register`,
         {
           user_id: userId,
-          password
+          password,
         },
         { withCredentials: true }
       );
-      setCurrentUser({"userId": userId});
+      setCurrentUser({ userId: userId });
       router.push(`/users/${userId}`);
     } catch (error) {
       if (error.response && error.response.status == 409) {
@@ -143,10 +143,7 @@ const RegisterPage = () => {
       >
         {processing ? "アカウントを作成中.." : "アカウントを作成"}
       </Button>
-      <Typography
-        variant="body2"
-        sx={{ mt: 2, color: "error.light" }}
-      >
+      <Typography variant="body2" sx={{ mt: 2, color: "error.light" }}>
         {errorMessage}
       </Typography>
       <Box sx={{ mt: 3 }}>

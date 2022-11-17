@@ -1,21 +1,21 @@
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import CircularProgress from '@mui/material/CircularProgress';
-import Container from '@mui/material/Container';
-import Rating from '@mui/material/Rating';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
-import axios from 'axios';
-import { useRouter } from 'next/router';
-import { useContext, useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
-import { convertToHalf, getCookie } from '../../src/utils';
-import { UserContext } from '../_app';
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import CircularProgress from "@mui/material/CircularProgress";
+import Container from "@mui/material/Container";
+import Rating from "@mui/material/Rating";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import axios from "axios";
+import { useRouter } from "next/router";
+import { useContext, useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import { convertToHalf, getCookie } from "../../src/utils";
+import { UserContext } from "../_app";
 
 const BookreviewCreatePage = () => {
   const router = useRouter();
   const { currentUser } = useContext(UserContext);
-  
+
   const [book, setBook] = useState(undefined);
   const [star, setStar] = useState(0);
   const [comment, setComment] = useState("");
@@ -47,8 +47,8 @@ const BookreviewCreatePage = () => {
         {
           withCredentials: true,
           headers: {
-            "X-CSRF-TOKEN": getCookie("csrf_access_token")
-          }
+            "X-CSRF-TOKEN": getCookie("csrf_access_token"),
+          },
         }
       );
       toast.success("レビューを作成しました");
@@ -82,13 +82,17 @@ const BookreviewCreatePage = () => {
           <Typography variant="body2" sx={{ mt: 1 }}>
             {convertToHalf(book.description)}
           </Typography>
-          <Typography variant="subtitle1" sx={{ mt: 3 }}>評価</Typography>
+          <Typography variant="subtitle1" sx={{ mt: 3 }}>
+            評価
+          </Typography>
           <Rating
             value={star}
             onChange={(event, newValue) => setStar(newValue)}
             sx={{ mt: 1 }}
           />
-          <Typography variant="subtitle1" sx={{ mt: 1 }}>コメント</Typography>
+          <Typography variant="subtitle1" sx={{ mt: 1 }}>
+            コメント
+          </Typography>
           <Box sx={{ mt: 1 }}>
             <TextField
               multiline
@@ -96,14 +100,10 @@ const BookreviewCreatePage = () => {
               placeholder="面白かった！"
               value={comment}
               onChange={(event) => setComment(event.target.value)}
-              sx={{ width: 4/5 }}
+              sx={{ width: 4 / 5 }}
             />
           </Box>
-          <Button
-            variant="contained"
-            sx={{ mt: 3 }}
-            onClick={createBookreview}
-          >
+          <Button variant="contained" sx={{ mt: 3 }} onClick={createBookreview}>
             登録
           </Button>
           <Button
@@ -113,10 +113,7 @@ const BookreviewCreatePage = () => {
           >
             キャンセル
           </Button>
-          <Typography
-            variant="body2"
-            sx={{ mt: 2, color: "error.light" }}
-          >
+          <Typography variant="body2" sx={{ mt: 2, color: "error.light" }}>
             {errorMessage}
           </Typography>
         </Box>

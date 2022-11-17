@@ -1,25 +1,25 @@
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import ThumbUpIcon from '@mui/icons-material/ThumbUp';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import CircularProgress from '@mui/material/CircularProgress';
-import Container from '@mui/material/Container';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import IconButton from '@mui/material/IconButton';
-import Rating from '@mui/material/Rating';
-import Typography from '@mui/material/Typography';
-import axios from 'axios';
-import { useRouter } from 'next/router';
-import { useContext, useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
-import Link, { NextLinkComposed } from '../../src/Link';
-import { convertToHalf, formatDate, getCookie } from '../../src/utils';
-import { UserContext } from '../_app';
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import CircularProgress from "@mui/material/CircularProgress";
+import Container from "@mui/material/Container";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import IconButton from "@mui/material/IconButton";
+import Rating from "@mui/material/Rating";
+import Typography from "@mui/material/Typography";
+import axios from "axios";
+import { useRouter } from "next/router";
+import { useContext, useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import Link, { NextLinkComposed } from "../../src/Link";
+import { convertToHalf, formatDate, getCookie } from "../../src/utils";
+import { UserContext } from "../_app";
 
 const BookPage = ({ book }) => {
   const router = useRouter();
@@ -32,34 +32,35 @@ const BookPage = ({ book }) => {
   useEffect(() => {
     (async () => {
       let config = {
-        params: { isbn: router.query.isbn }
+        params: { isbn: router.query.isbn },
       };
       if (currentUser.userId) {
         config = {
           ...config,
           withCredentials: true,
           headers: {
-            "X-CSRF-TOKEN": getCookie("csrf_access_token")
-          }
+            "X-CSRF-TOKEN": getCookie("csrf_access_token"),
+          },
         };
       }
       const response = await axios.get(
         `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/bookreviews`,
         config
       );
-      const bookreviews = response.data.bookreviews.map((br) => (
-        { ...br, updated_at: new Date(br.updated_at) }
-      ));
+      const bookreviews = response.data.bookreviews.map((br) => ({
+        ...br,
+        updated_at: new Date(br.updated_at),
+      }));
       if (currentUser.userId) {
-        setMyReview(bookreviews.filter((br) => (
-          br.user_id === currentUser.userId
-        ))[0]);
+        setMyReview(
+          bookreviews.filter((br) => br.user_id === currentUser.userId)[0]
+        );
       }
-      const initialOthersReviews = bookreviews.filter((br) => (
-        br.user_id !== currentUser.userId
-      )).sort((a, b) => (
-        a.updated_at.getTime() < b.updated_at.getTime() ? 1 : -1
-      ));
+      const initialOthersReviews = bookreviews
+        .filter((br) => br.user_id !== currentUser.userId)
+        .sort((a, b) =>
+          a.updated_at.getTime() < b.updated_at.getTime() ? 1 : -1
+        );
       setOthersReviews(initialOthersReviews);
     })();
   }, []);
@@ -69,9 +70,9 @@ const BookPage = ({ book }) => {
       `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/bookreviews/${myReview.id}`,
       {
         headers: {
-          "X-CSRF-TOKEN": getCookie("csrf_access_token")
+          "X-CSRF-TOKEN": getCookie("csrf_access_token"),
         },
-        withCredentials: true
+        withCredentials: true,
       }
     );
     setMyReview(undefined);
@@ -88,21 +89,20 @@ const BookPage = ({ book }) => {
   };
 
   const deleteLike = async (bookreviewId) => {
-    await axios.delete(
-      `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/likes`,
-      {
-        headers: {
-          "X-CSRF-TOKEN": getCookie("csrf_access_token")
-        },
-        withCredentials: true,
-        data: {
-          bookreview_id: bookreviewId
-        }
-      }
-    );
+    await axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/likes`, {
+      headers: {
+        "X-CSRF-TOKEN": getCookie("csrf_access_token"),
+      },
+      withCredentials: true,
+      data: {
+        bookreview_id: bookreviewId,
+      },
+    });
 
     const newOthersReviews = othersReviews.slice();
-    const targetBookreview = newOthersReviews.find((br) => br.id === bookreviewId);
+    const targetBookreview = newOthersReviews.find(
+      (br) => br.id === bookreviewId
+    );
     targetBookreview.like_count -= 1;
     targetBookreview.my_like = 0;
     setOthersReviews(newOthersReviews);
@@ -112,18 +112,20 @@ const BookPage = ({ book }) => {
     await axios.post(
       `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/likes`,
       {
-        bookreview_id: bookreviewId
+        bookreview_id: bookreviewId,
       },
       {
         headers: {
-          "X-CSRF-TOKEN": getCookie("csrf_access_token")
+          "X-CSRF-TOKEN": getCookie("csrf_access_token"),
         },
         withCredentials: true,
       }
     );
 
     const newOthersReviews = othersReviews.slice();
-    const targetBookreview = newOthersReviews.find((br) => br.id === bookreviewId);
+    const targetBookreview = newOthersReviews.find(
+      (br) => br.id === bookreviewId
+    );
     targetBookreview.like_count += 1;
     targetBookreview.my_like = 1;
     setOthersReviews(newOthersReviews);
@@ -141,7 +143,10 @@ const BookPage = ({ book }) => {
     bookreviewRows = (
       <Box>
         {othersReviews.map((br) => (
-          <Box key={br.user_id} sx={{ pt: 2, pb: 1, borderBottom: 1, borderColor: "grey.400" }}>
+          <Box
+            key={br.user_id}
+            sx={{ pt: 2, pb: 1, borderBottom: 1, borderColor: "grey.400" }}
+          >
             <Box sx={{ display: "flex" }}>
               <Link
                 variant="body2"
@@ -168,7 +173,9 @@ const BookPage = ({ book }) => {
               >
                 <ThumbUpIcon fontSize="inherit" />
               </IconButton>
-              <Typography variant="body2" sx={{ ml: 0.5 }}>{br.like_count}</Typography>
+              <Typography variant="body2" sx={{ ml: 0.5 }}>
+                {br.like_count}
+              </Typography>
             </Box>
           </Box>
         ))}
@@ -207,7 +214,11 @@ const BookPage = ({ book }) => {
             </Box>
             <Typography variant="body2">{book.author}</Typography>
             <Box sx={{ mt: 1, display: "flex" }}>
-              <Rating value={Math.round(book.star*2)/2} precision={0.5} readOnly />
+              <Rating
+                value={Math.round(book.star * 2) / 2}
+                precision={0.5}
+                readOnly
+              />
               <Typography variant="body1" sx={{ ml: 1 }}>
                 {`${book.star.toFixed(1)} (${book.reviewCount})`}
               </Typography>
@@ -219,13 +230,12 @@ const BookPage = ({ book }) => {
         </Box>
         {myReview && (
           <>
-            <Typography variant="subtitle1" sx={{ mt: 4 }}>自分のレビュー</Typography>
+            <Typography variant="subtitle1" sx={{ mt: 4 }}>
+              自分のレビュー
+            </Typography>
             <Box sx={{ mt: 2, display: "flex", alignItems: "center" }}>
               <Rating value={myReview.star} size="small" readOnly />
-              <Typography
-                variant="body2"
-                sx={{ ml: 1, color: "grey.700" }}
-              >
+              <Typography variant="body2" sx={{ ml: 1, color: "grey.700" }}>
                 {`(${formatDate(myReview.updated_at)})`}
               </Typography>
               <IconButton
@@ -240,23 +250,24 @@ const BookPage = ({ book }) => {
                 <DeleteIcon fontSize="inherit" />
               </IconButton>
             </Box>
-            <Typography variant="body2" sx={{ mt: 1 }}>{myReview.comment}</Typography>
+            <Typography variant="body2" sx={{ mt: 1 }}>
+              {myReview.comment}
+            </Typography>
             <Box sx={{ mt: 0.5, display: "flex", alignItems: "center" }}>
               <IconButton size="small" disabled>
                 <ThumbUpIcon fontSize="inherit" />
               </IconButton>
-              <Typography variant="body2" sx={{ ml: 0.5 }}>{myReview.like_count}</Typography>
+              <Typography variant="body2" sx={{ ml: 0.5 }}>
+                {myReview.like_count}
+              </Typography>
             </Box>
           </>
         )}
         <Box sx={{ mt: 4, display: "flex", alignItems: "center" }}>
-          <Typography
-            variant="subtitle1"
-            sx={{ flexGrow: 1 }}
-          >
+          <Typography variant="subtitle1" sx={{ flexGrow: 1 }}>
             レビュー一覧
           </Typography>
-          {(currentUser.userId && !myReview && othersReviews) && (
+          {currentUser.userId && !myReview && othersReviews && (
             <Button
               variant="contained"
               component={NextLinkComposed}
