@@ -4,6 +4,8 @@ import Head from 'next/head';
 import PropTypes from 'prop-types';
 import * as React from 'react';
 import { createContext, useState } from 'react';
+import { Flip, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { Header } from '../components/Header';
 import createEmotionCache from '../src/createEmotionCache';
 
@@ -23,6 +25,12 @@ export default function MyApp(props) {
       <UserContext.Provider value={{ currentUser, setCurrentUser }}>
         <Header />
         <Component {...pageProps} />
+        <ToastContainer
+          position="top-center"
+          autoClose={2500}
+          transition={Flip}
+          theme="colored"
+        />
       </UserContext.Provider>
     </CacheProvider>
   );

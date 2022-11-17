@@ -16,6 +16,7 @@ import Typography from '@mui/material/Typography';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import Link, { NextLinkComposed } from '../../src/Link';
 import { convertToHalf, formatDate, getCookie } from '../../src/utils';
 import { UserContext } from '../_app';
@@ -75,6 +76,7 @@ const BookPage = ({ book }) => {
     );
     setMyReview(undefined);
     setOpen(false);
+    toast.success("レビューを削除しました");
   };
 
   const handleThumpUpIconClick = (bookreview) => {

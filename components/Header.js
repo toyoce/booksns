@@ -9,6 +9,7 @@ import Toolbar from '@mui/material/Toolbar';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useContext, useState } from 'react';
+import { toast } from 'react-toastify';
 import { UserContext } from '../pages/_app';
 import Link, { NextLinkComposed } from '../src/Link';
 import { getCookie } from '../src/utils';
@@ -43,6 +44,7 @@ export const Header = () => {
       withCredentials: true
     });
     setCurrentUser({"userId": undefined});
+    toast.success("ログアウトしました");
     router.push("/");
   };
 

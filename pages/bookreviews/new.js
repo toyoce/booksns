@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import { convertToHalf, getCookie } from '../../src/utils';
 import { UserContext } from '../_app';
 
@@ -50,9 +51,10 @@ const BookreviewCreatePage = () => {
           }
         }
       );
+      toast.success("レビューを作成しました");
       router.push(`/users/${currentUser.userId}`);
     } catch {
-      setErrorMessage("エラーにより、レビューの追加に失敗しました");
+      setErrorMessage("エラーにより、レビューの作成に失敗しました");
     }
   };
 

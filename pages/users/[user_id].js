@@ -15,6 +15,7 @@ import Typography from '@mui/material/Typography';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import Link, { NextLinkComposed } from '../../src/Link';
 import { formatDate, getCookie } from '../../src/utils';
 import { UserContext } from '../_app';
@@ -74,6 +75,7 @@ const UserPage = () => {
     setBookreviews(newBookreviews);
     setSelected(undefined);
     setOpen(false);
+    toast.success("レビューを削除しました");
   };
 
   const handleDialogClose = () => {

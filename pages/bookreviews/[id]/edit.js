@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import { convertToHalf, getCookie } from '../../../src/utils';
 import { UserContext } from '../../_app';
 
@@ -61,6 +62,7 @@ const BookreviewEditPage = () => {
           }
         }
       );
+      toast.success("レビューを更新しました");
       router.push(`/users/${currentUser.userId}`);
     } catch {
       setErrorMessage("エラーにより、レビューの更新に失敗しました");
