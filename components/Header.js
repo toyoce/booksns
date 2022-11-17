@@ -57,7 +57,7 @@ export const Header = () => {
             href="/"
             sx={{ flexGrow: 1 }}
           >
-            Bookshare
+            Booksns
           </Link>
           <Typography variant="body1">
             {`${currentUser.userId} さん`}
