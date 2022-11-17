@@ -21,6 +21,7 @@ const RegisterPage = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [processing, setProcessing] = useState(false);
 
   const handleUserIdChange = (event) => {
     setUserId(event.target.value);
@@ -68,6 +69,7 @@ const RegisterPage = () => {
       return;
     }
     setErrorMessage("");
+    setProcessing(true);
 
     try {
       await axios.post(
@@ -86,6 +88,7 @@ const RegisterPage = () => {
       } else {
         setErrorMessage("エラーにより、アカウント作成に失敗しました");
       }
+      setProcessing(false);
     }
   };
 
@@ -136,8 +139,9 @@ const RegisterPage = () => {
         fullWidth
         sx={{ mt: 5 }}
         onClick={register}
+        disabled={processing}
       >
-        アカウントを作成
+        {processing ? "アカウントを作成中.." : "アカウントを作成"}
       </Button>
       <Typography
         variant="body2"

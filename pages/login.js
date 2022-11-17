@@ -21,6 +21,7 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [processing, setProcessing] = useState(false);
 
   const handleUserIdChange = (event) => {
     setUserId(event.target.value);
@@ -44,6 +45,7 @@ const LoginPage = () => {
       return;
     }
     setErrorMessage("");
+    setProcessing(true);
 
     try {
       await axios.post(
@@ -62,6 +64,7 @@ const LoginPage = () => {
       } else {
         setErrorMessage("エラーにより、ログインに失敗しました");
       }
+      setProcessing(false);
     }
   };
 
@@ -110,8 +113,9 @@ const LoginPage = () => {
         fullWidth
         sx={{ mt: 5 }}
         onClick={login}
+        disabled={processing}
       >
-        ログイン
+        {processing ? "ログイン中.." : "ログイン"}
       </Button>
       <Typography
         variant="body2"
