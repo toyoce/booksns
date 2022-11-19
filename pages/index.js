@@ -115,19 +115,26 @@ const Home = ({ highlyRatedBooks, mostReviewedBooks }) => {
 export default Home;
 
 export const getServerSideProps = async () => {
-  const responses = await Promise.all([
-    axios.get(
-      `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/highly-rated-books`,
-      { params: { topn: 10 } }
-    ),
-    axios.get(
-      `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/most-reviewed-books`,
-      { params: { topn: 10 } }
-    ),
-  ]);
+  let highlyRatedBooks;
+  let mostReviewedBooks;
 
-  const highlyRatedBooks = responses[0].data.books;
-  const mostReviewedBooks = responses[1].data.books;
+  try {
+    const responses = await Promise.all([
+      axios.get(
+        `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/highly-rated-books`,
+        { params: { topn: 10 } }
+      ),
+      axios.get(
+        `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/most-reviewed-books`,
+        { params: { topn: 10 } }
+      ),
+    ]);
+    highlyRatedBooks = responses[0].data.books;
+    mostReviewedBooks = responses[1].data.books;
+  } catch {
+    highlyRatedBooks = [];
+    mostReviewedBooks = [];
+  }
 
   return { props: { highlyRatedBooks, mostReviewedBooks } };
 };
