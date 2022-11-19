@@ -1,6 +1,7 @@
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { Typography } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
@@ -52,15 +53,11 @@ export const Header = () => {
     <AppBar position="sticky">
       {currentUser.userId ? (
         <Toolbar>
-          <Link
-            variant="h5"
-            underline="none"
-            color="common.white"
-            href="/"
-            sx={{ flexGrow: 1 }}
-          >
-            Booksns
-          </Link>
+          <Box sx={{ flexGrow: 1 }}>
+            <Link variant="h5" underline="none" color="common.white" href="/">
+              Booksns
+            </Link>
+          </Box>
           <Typography variant="body1">
             {`${currentUser.userId} さん`}
           </Typography>
@@ -78,15 +75,11 @@ export const Header = () => {
         </Toolbar>
       ) : (
         <Toolbar>
-          <Link
-            variant="h5"
-            underline="none"
-            color="common.white"
-            href="/"
-            sx={{ flexGrow: 1 }}
-          >
-            Booksns
-          </Link>
+          <Box sx={{ flexGrow: 1 }}>
+            <Link variant="h5" underline="none" color="common.white" href="/">
+              Booksns
+            </Link>
+          </Box>
           <Button
             variant="contained"
             component={NextLinkComposed}
