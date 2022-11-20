@@ -43,38 +43,47 @@ const BookPage = ({ book }) => {
           },
         };
       }
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/bookreviews`,
-        config
-      );
-      const bookreviews = response.data.bookreviews.map((br) => ({
-        ...br,
-        updated_at: new Date(br.updated_at),
-      }));
-      if (currentUser.userId) {
-        setMyReview(
-          bookreviews.filter((br) => br.user_id === currentUser.userId)[0]
+      try {
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/bookreviews`,
+          config
         );
+        const bookreviews = response.data.bookreviews.map((br) => ({
+          ...br,
+          updated_at: new Date(br.updated_at),
+        }));
+        if (currentUser.userId) {
+          setMyReview(
+            bookreviews.filter((br) => br.user_id === currentUser.userId)[0]
+          );
+        }
+        const initialOthersReviews = bookreviews
+          .filter((br) => br.user_id !== currentUser.userId)
+          .sort((a, b) =>
+            a.updated_at.getTime() < b.updated_at.getTime() ? 1 : -1
+          );
+        setOthersReviews(initialOthersReviews);
+      } catch {
+        setMyReview(undefined);
+        setOthersReviews(undefined);
       }
-      const initialOthersReviews = bookreviews
-        .filter((br) => br.user_id !== currentUser.userId)
-        .sort((a, b) =>
-          a.updated_at.getTime() < b.updated_at.getTime() ? 1 : -1
-        );
-      setOthersReviews(initialOthersReviews);
     })();
   }, []);
 
   const handleDeleteButtonClick = async () => {
-    await axios.delete(
-      `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/bookreviews/${myReview.id}`,
-      {
-        headers: {
-          "X-CSRF-TOKEN": getCookie("csrf_access_token"),
-        },
-        withCredentials: true,
-      }
-    );
+    try {
+      await axios.delete(
+        `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/bookreviews/${myReview.id}`,
+        {
+          headers: {
+            "X-CSRF-TOKEN": getCookie("csrf_access_token"),
+          },
+          withCredentials: true,
+        }
+      );
+    } catch {
+      return;
+    }
     setMyReview(undefined);
     setOpen(false);
     toast.success("レビューを削除しました");
@@ -89,15 +98,19 @@ const BookPage = ({ book }) => {
   };
 
   const deleteLike = async (bookreviewId) => {
-    await axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/likes`, {
-      headers: {
-        "X-CSRF-TOKEN": getCookie("csrf_access_token"),
-      },
-      withCredentials: true,
-      data: {
-        bookreview_id: bookreviewId,
-      },
-    });
+    try {
+      await axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/likes`, {
+        headers: {
+          "X-CSRF-TOKEN": getCookie("csrf_access_token"),
+        },
+        withCredentials: true,
+        data: {
+          bookreview_id: bookreviewId,
+        },
+      });
+    } catch {
+      return;
+    }
 
     const newOthersReviews = othersReviews.slice();
     const targetBookreview = newOthersReviews.find(
@@ -109,18 +122,22 @@ const BookPage = ({ book }) => {
   };
 
   const createLike = async (bookreviewId) => {
-    await axios.post(
-      `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/likes`,
-      {
-        bookreview_id: bookreviewId,
-      },
-      {
-        headers: {
-          "X-CSRF-TOKEN": getCookie("csrf_access_token"),
+    try {
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/likes`,
+        {
+          bookreview_id: bookreviewId,
         },
-        withCredentials: true,
-      }
-    );
+        {
+          headers: {
+            "X-CSRF-TOKEN": getCookie("csrf_access_token"),
+          },
+          withCredentials: true,
+        }
+      );
+    } catch {
+      return;
+    }
 
     const newOthersReviews = othersReviews.slice();
     const targetBookreview = newOthersReviews.find(
@@ -186,6 +203,16 @@ const BookPage = ({ book }) => {
       <Typography variant="body2" sx={{ mt: 6, textAlign: "center" }}>
         まだレビューはありません
       </Typography>
+    );
+  }
+
+  if (!book) {
+    return (
+      <Container>
+        <Typography variant="body2" sx={{ mt: 8, textAlign: "center" }}>
+          本の情報が見つかりませんでした
+        </Typography>
+      </Container>
     );
   }
 
@@ -316,10 +343,16 @@ const BookPage = ({ book }) => {
 export default BookPage;
 
 export const getServerSideProps = async ({ params }) => {
-  const response = await axios.get(
-    `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/books/${params.isbn}`
-  );
-  const book = response.data;
+  let book;
+
+  try {
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/books/${params.isbn}`
+    );
+    book = response.data;
+  } catch {
+    book = null;
+  }
 
   return { props: { book } };
 };
