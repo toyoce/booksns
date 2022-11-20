@@ -44,9 +44,15 @@ const BookreviewEditPage = () => {
     })();
   }, []);
 
+  const max_comment_length = 100;
+
   const updateBookreview = async () => {
     if (!star) {
       setErrorMessage("5段階の評価のどれかを選んでください");
+      return;
+    }
+    if (comment.length > max_comment_length) {
+      setErrorMessage("コメントが最大文字数を超えています");
       return;
     }
     setErrorMessage("");
@@ -109,6 +115,7 @@ const BookreviewEditPage = () => {
               multiline
               rows={3}
               placeholder="面白かった！"
+              helperText={`最大${max_comment_length}文字まで`}
               value={comment}
               onChange={(event) => setComment(event.target.value)}
               sx={{ width: 4 / 5 }}
