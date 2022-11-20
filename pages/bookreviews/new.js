@@ -26,10 +26,14 @@ const BookreviewCreatePage = () => {
       router.push("/login");
     }
     (async () => {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/books/${router.query.isbn}`
-      );
-      setBook(response.data);
+      try {
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/books/${router.query.isbn}`
+        );
+        setBook(response.data);
+      } catch {
+        setBook(undefined);
+      }
     })();
   }, []);
 
