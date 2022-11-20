@@ -26,21 +26,27 @@ const BookreviewEditPage = () => {
       router.push("/login");
     }
     (async () => {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/bookreviews/${router.query.id}`
-      );
-      const bookreview = response.data;
-      if (bookreview.user_id !== currentUser.userId) {
-        router.push(`/users/${currentUser.userId}`);
+      try {
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/bookreviews/${router.query.id}`
+        );
+        const bookreview = response.data;
+        if (bookreview.user_id !== currentUser.userId) {
+          router.push(`/users/${currentUser.userId}`);
+        }
+        setBook({
+          title: bookreview.title,
+          author: bookreview.author,
+          description: bookreview.description,
+          img: bookreview.img,
+        });
+        setStar(bookreview.star);
+        setComment(bookreview.comment);
+      } catch {
+        setBook(undefined);
+        setStar(0);
+        setComment("");
       }
-      setBook({
-        title: bookreview.title,
-        author: bookreview.author,
-        description: bookreview.description,
-        img: bookreview.img,
-      });
-      setStar(bookreview.star);
-      setComment(bookreview.comment);
     })();
   }, []);
 
