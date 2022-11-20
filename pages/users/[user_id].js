@@ -43,16 +43,20 @@ const UserPage = () => {
           },
         };
       }
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/bookreviews`,
-        config
-      );
-      const initialBookreviews = response.data.bookreviews
-        .map((br) => ({ ...br, updated_at: new Date(br.updated_at) }))
-        .sort((a, b) =>
-          a.updated_at.getTime() < b.updated_at.getTime() ? 1 : -1
+      try {
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/bookreviews`,
+          config
         );
-      setBookreviews(initialBookreviews);
+        const initialBookreviews = response.data.bookreviews
+          .map((br) => ({ ...br, updated_at: new Date(br.updated_at) }))
+          .sort((a, b) =>
+            a.updated_at.getTime() < b.updated_at.getTime() ? 1 : -1
+          );
+        setBookreviews(initialBookreviews);
+      } catch {
+        setBookreviews(undefined);
+      }
     })();
   }, []);
 
@@ -62,15 +66,19 @@ const UserPage = () => {
   };
 
   const handleDeleteButtonClick = async () => {
-    await axios.delete(
-      `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/bookreviews/${selected}`,
-      {
-        headers: {
-          "X-CSRF-TOKEN": getCookie("csrf_access_token"),
-        },
-        withCredentials: true,
-      }
-    );
+    try {
+      await axios.delete(
+        `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/bookreviews/${selected}`,
+        {
+          headers: {
+            "X-CSRF-TOKEN": getCookie("csrf_access_token"),
+          },
+          withCredentials: true,
+        }
+      );
+    } catch {
+      return;
+    }
     const newBookreviews = bookreviews
       .slice()
       .filter((br) => br.id !== selected);
@@ -94,15 +102,19 @@ const UserPage = () => {
   };
 
   const deleteLike = async (bookreviewId) => {
-    await axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/likes`, {
-      headers: {
-        "X-CSRF-TOKEN": getCookie("csrf_access_token"),
-      },
-      withCredentials: true,
-      data: {
-        bookreview_id: bookreviewId,
-      },
-    });
+    try {
+      await axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/likes`, {
+        headers: {
+          "X-CSRF-TOKEN": getCookie("csrf_access_token"),
+        },
+        withCredentials: true,
+        data: {
+          bookreview_id: bookreviewId,
+        },
+      });
+    } catch {
+      return;
+    }
 
     const newBookreviews = bookreviews.slice();
     const targetBookreview = newBookreviews.find(
@@ -114,18 +126,22 @@ const UserPage = () => {
   };
 
   const createLike = async (bookreviewId) => {
-    await axios.post(
-      `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/likes`,
-      {
-        bookreview_id: bookreviewId,
-      },
-      {
-        headers: {
-          "X-CSRF-TOKEN": getCookie("csrf_access_token"),
+    try {
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/likes`,
+        {
+          bookreview_id: bookreviewId,
         },
-        withCredentials: true,
-      }
-    );
+        {
+          headers: {
+            "X-CSRF-TOKEN": getCookie("csrf_access_token"),
+          },
+          withCredentials: true,
+        }
+      );
+    } catch {
+      return;
+    }
 
     const newBookreviews = bookreviews.slice();
     const targetBookreview = newBookreviews.find(
