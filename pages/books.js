@@ -23,11 +23,15 @@ const BooksPage = () => {
   useEffect(() => {
     if (keyword) {
       (async () => {
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/books`,
-          { params: { keyword } }
-        );
-        setBooks(response.data.books);
+        try {
+          const response = await axios.get(
+            `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/books`,
+            { params: { keyword } }
+          );
+          setBooks(response.data.books);
+        } catch {
+          setBooks([]);
+        }
         setLoading(false);
       })();
     }
@@ -53,11 +57,15 @@ const BooksPage = () => {
           },
         };
       }
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/books`,
-        config
-      );
-      setBooks(response.data.books);
+      try {
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/books`,
+          config
+        );
+        setBooks(response.data.books);
+      } catch {
+        setBooks([]);
+      }
       setLoading(false);
     }
   };
