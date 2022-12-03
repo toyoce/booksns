@@ -1,5 +1,6 @@
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import Avatar from '@mui/material/Avatar';
 import Box from "@mui/material/Box";
@@ -153,6 +154,25 @@ const UserPage = () => {
     setBookreviews(newBookreviews);
   };
 
+  const handleFileChange = async (event) => {
+    const { name, files } = event.target;
+    const formData = new FormData();
+    formData.append(name, files[0]);
+
+    await axios.post(
+      `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/avatars`,
+      formData,
+      {
+        withCredentials: true,
+        headers: {
+          "X-CSRF-TOKEN": getCookie("csrf_access_token"),
+        },
+      }
+    );
+
+    event.target.value = '';
+  };
+
   let bookreviewRows;
 
   if (!bookreviews) {
@@ -260,10 +280,18 @@ const UserPage = () => {
   return (
     <>
       <Container>
-        <Avatar
-          src={`${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/static/${user_id}.svg`}
-          sx={{ my: 2, width: 96, height: 96 }}
-        />
+        <Box sx={{ my: 2, display: "flex", alignItems: "flex-end" }}>
+          <Avatar
+            src={`${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/static/avatar/${user_id}.svg`}
+            sx={{ width: 96, height: 96 }}
+          />
+          {currentUser.userId === user_id && (
+            <IconButton component="label">
+              <input hidden accept="image/*" type="file" name="avatar" onChange={handleFileChange} />
+              <PhotoCamera />
+            </IconButton>
+          )}
+        </Box>
         <Typography variant="h6" sx={{ my: 1 }}>
           {`${user_id} さんのページ`}
         </Typography>
