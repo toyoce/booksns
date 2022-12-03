@@ -1,6 +1,7 @@
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import Avatar from '@mui/material/Avatar';
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -259,7 +260,11 @@ const UserPage = () => {
   return (
     <>
       <Container>
-        <Typography variant="h6" sx={{ my: 2 }}>
+        <Avatar
+          src={`${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/static/${user_id}.svg`}
+          sx={{ my: 2, width: 96, height: 96 }}
+        />
+        <Typography variant="h6" sx={{ my: 1 }}>
           {`${user_id} さんのページ`}
         </Typography>
         <Box sx={{ mt: 3, mb: 1, display: "flex", alignItems: "center" }}>
