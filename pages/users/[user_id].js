@@ -1,8 +1,8 @@
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import PhotoCamera from '@mui/icons-material/PhotoCamera';
+import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
-import Avatar from '@mui/material/Avatar';
+import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -22,7 +22,7 @@ import Link, { NextLinkComposed } from "../../src/Link";
 import { formatDate, getCookie } from "../../src/utils";
 import { UserContext } from "../_app";
 
-const UserPage = () => {
+const UserPage = ({ user }) => {
   const router = useRouter();
   const { user_id } = router.query;
   const { currentUser } = useContext(UserContext);
@@ -30,6 +30,7 @@ const UserPage = () => {
   const [bookreviews, setBookreviews] = useState(undefined);
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState(undefined);
+  const [avatar, setAvatar] = useState(user.avatar);
 
   useEffect(() => {
     (async () => {
@@ -159,7 +160,7 @@ const UserPage = () => {
     const formData = new FormData();
     formData.append(name, files[0]);
 
-    await axios.post(
+    const response = await axios.post(
       `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/avatars`,
       formData,
       {
@@ -169,8 +170,10 @@ const UserPage = () => {
         },
       }
     );
+    setAvatar(response.data.avatar);
 
-    event.target.value = '';
+    toast.success("アバター画像を更新しました");
+    event.target.value = "";
   };
 
   let bookreviewRows;
@@ -282,12 +285,22 @@ const UserPage = () => {
       <Container>
         <Box sx={{ my: 2, display: "flex", alignItems: "flex-end" }}>
           <Avatar
-            src={`${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/static/avatar/${user_id}.svg`}
+            src={
+              avatar
+                ? `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/static/avatar/${avatar}`
+                : ""
+            }
             sx={{ width: 96, height: 96 }}
           />
           {currentUser.userId === user_id && (
             <IconButton component="label">
-              <input hidden accept="image/*" type="file" name="avatar" onChange={handleFileChange} />
+              <input
+                hidden
+                accept="image/*"
+                type="file"
+                name="avatar"
+                onChange={handleFileChange}
+              />
               <PhotoCamera />
             </IconButton>
           )}
@@ -346,3 +359,18 @@ const UserPage = () => {
 };
 
 export default UserPage;
+
+export const getServerSideProps = async ({ params }) => {
+  let user;
+
+  try {
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/users/${params.user_id}`
+    );
+    user = response.data;
+  } catch {
+    user = null;
+  }
+
+  return { props: { user } };
+};
