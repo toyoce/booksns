@@ -2,7 +2,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
-import Avatar from '@mui/material/Avatar';
+import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -167,7 +167,11 @@ const BookPage = ({ book }) => {
           >
             <Box sx={{ display: "flex", alignItems: "center" }}>
               <Avatar
-                src={`${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/static/${br.user_id}.svg`}
+                src={
+                  br.avatar
+                    ? `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/static/avatar/${br.avatar}`
+                    : ""
+                }
                 sx={{ width: 32, height: 32 }}
               />
               <Link
