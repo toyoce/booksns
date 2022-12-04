@@ -31,6 +31,7 @@ const UserPage = ({ user }) => {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState(undefined);
   const [avatar, setAvatar] = useState(user.avatar);
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     (async () => {
@@ -156,21 +157,28 @@ const UserPage = ({ user }) => {
   };
 
   const handleFileChange = async (event) => {
+    setErrorMessage("");
     const { name, files } = event.target;
     const formData = new FormData();
     formData.append(name, files[0]);
 
-    const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/avatars`,
-      formData,
-      {
-        withCredentials: true,
-        headers: {
-          "X-CSRF-TOKEN": getCookie("csrf_access_token"),
-        },
-      }
-    );
-    setAvatar(response.data.avatar);
+    try {
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/avatars`,
+        formData,
+        {
+          withCredentials: true,
+          headers: {
+            "X-CSRF-TOKEN": getCookie("csrf_access_token"),
+          },
+        }
+      );
+      setAvatar(response.data.avatar);
+    } catch {
+      setErrorMessage("エラーにより、アバター画像の更新に失敗しました");
+      event.target.value = "";
+      return;
+    }
 
     toast.success("アバター画像を更新しました");
     event.target.value = "";
@@ -305,6 +313,9 @@ const UserPage = ({ user }) => {
             </IconButton>
           )}
         </Box>
+        <Typography variant="body2" sx={{ mt: 2, color: "error.light" }}>
+          {errorMessage}
+        </Typography>
         <Typography variant="h6" sx={{ my: 1 }}>
           {`${user_id} さんのページ`}
         </Typography>
