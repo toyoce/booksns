@@ -73,7 +73,7 @@ const Home = ({ highlyRatedBooks, mostReviewedBooks }) => {
         <Typography variant="h6" sx={{ mt: 3 }}>
           レビュー数が多い本
         </Typography>
-        <Box sx={{ mt: 1, overflow: "auto", whiteSpace: "nowrap" }}>
+        <Box sx={{ mt: 1, mb: 2, overflow: "auto", whiteSpace: "nowrap" }}>
           {mostReviewedBooks.map((book) => (
             <Box key={book.isbn} sx={{ mr: 3, my: 1, display: "inline-block" }}>
               <Link href={`/books/${book.isbn}`}>
@@ -93,7 +93,8 @@ const Home = ({ highlyRatedBooks, mostReviewedBooks }) => {
           ))}
         </Box>
       </Container>
-      <AppBar color="transparent" position="static" sx={{ mt: 8 }}>
+      <Toolbar />
+      <AppBar color="inherit" position="fixed" sx={{ top: "auto", bottom: 0 }}>
         <Toolbar>
           {/* eslint-disable-next-line react/jsx-no-target-blank */}
           <a href="https://webservice.rakuten.co.jp/" target="_blank">
